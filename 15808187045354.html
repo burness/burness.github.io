@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
       
-    [toc] - 
+    pytorch 环境安装及配置 - 
     
     </title>
     
@@ -59,15 +59,13 @@
 <div class="container">
   <article class="post-container">
     <header class="post-header">
-        <h1 class="post-title">[toc]</h1>
+        <h1 class="post-title">pytorch 环境安装及配置</h1>
         <p class="post-date">
                 <span>Posted <time datetime="2020/02/04" itemprop="datePublished">2020/02/04</time></span>
             </p>
     </header>
 
     <div class="post-content clearfix">
-<h1 id="toc_0">pytorch 环境安装及配置</h1>
-
 <p>基础的cuda 啥的就不详细描述了，建议用docker、建议用docker、建议用docker，把搞环境的时间花在跑代码上不香吗？ 本文主要是来自于pytorch 官网，会稍微改下部分内容来作为学习笔记；</p>
 
 <pre><code class="language-python"># install pytorch 1.4
@@ -108,9 +106,9 @@ torch.cuda.is_available()
 <pre><code class="language-text">True
 </code></pre>
 
-<h1 id="toc_1">what is pytorch</h1>
+<h1 id="toc_0">what is pytorch</h1>
 
-<h2 id="toc_2">Tensors</h2>
+<h2 id="toc_1">Tensors</h2>
 
 <pre><code class="language-python">from __future__ import print_function
 import torch
@@ -158,7 +156,7 @@ tensor([[ 0.5468, -0.4615, -0.0450],
 torch.Size([5, 3])
 </code></pre>
 
-<h2 id="toc_3">Operaations</h2>
+<h2 id="toc_2">Operaations</h2>
 
 <pre><code class="language-python">y = torch.rand(5, 3)
 print(x+y)
@@ -228,7 +226,7 @@ print(x.item())
 0.999320387840271
 </code></pre>
 
-<h2 id="toc_4">Numpy Bridge</h2>
+<h2 id="toc_3">Numpy Bridge</h2>
 
 <pre><code class="language-python"># Converting a Torch Tensor to a NumPy Array
 a = torch.ones(5)
@@ -274,12 +272,12 @@ if torch.cuda.is_available():
 tensor([1.9993], dtype=torch.float64)
 </code></pre>
 
-<h2 id="toc_5">AUTOGRAD: AUTOMATIC DIFFERENTIATION</h2>
+<h2 id="toc_4">AUTOGRAD: AUTOMATIC DIFFERENTIATION</h2>
 
 <p>Central to all neural networks in PyTorch is the autograd package. Let’s first briefly visit this, and we will then go to training our first neural network.<br/>
 The autograd package provides automatic differentiation for all operations on Tensors. It is a define-by-run framework, which means that your backprop is defined by how your code is run, and that every single iteration can be different.</p>
 
-<h2 id="toc_6">Tensor</h2>
+<h2 id="toc_5">Tensor</h2>
 
 <p><code>torch.Tensor</code> is the central class of the package. If you set its attribute <code>.requires_grad</code> as True, it starts to track all operations on it. When you finish your computation you can call <code>.backward()</code> and have all the gradients computed automatically. The gradient for this tensor will be accumulated into <code>.grad</code> attribute.</p>
 
@@ -316,7 +314,7 @@ True
 &lt;SumBackward0 object at 0x7feca617ddd0&gt;
 </code></pre>
 
-<h2 id="toc_7">Gradients</h2>
+<h2 id="toc_6">Gradients</h2>
 
 <pre><code class="language-python">out.backward()
 </code></pre>
@@ -369,7 +367,7 @@ False
 tensor(True)
 </code></pre>
 
-<h2 id="toc_8">Neural networks</h2>
+<h2 id="toc_7">Neural networks</h2>
 
 <p>A typical training procedure for a neural network is as follows:</p>
 
@@ -456,7 +454,7 @@ net.zero_grad()
 out.backward(torch.randn(1, 10))
 </code></pre>
 
-<h2 id="toc_9">Loss Function</h2>
+<h2 id="toc_8">Loss Function</h2>
 
 <pre><code class="language-python">output = net(input)
 target = torch.randn(10)  # a dummy target, for example
@@ -480,7 +478,7 @@ print(loss.grad_fn.next_functions[0][0].next_functions[0][0])  # ReLU
 &lt;AccumulateGrad object at 0x7fec9c351350&gt;
 </code></pre>
 
-<h2 id="toc_10">Backprop</h2>
+<h2 id="toc_9">Backprop</h2>
 
 <pre><code class="language-python">net.zero_grad()     # zeroes the gradient buffers of all parameters
 
@@ -499,7 +497,7 @@ conv1.bias.grad after backward
 tensor([-0.0241, -0.0161, -0.0086, -0.0032,  0.0125,  0.0005])
 </code></pre>
 
-<h2 id="toc_11">Update the weights</h2>
+<h2 id="toc_10">Update the weights</h2>
 
 <pre><code class="language-python"># using sgd
 learning_rate = 0.01
@@ -522,9 +520,9 @@ loss.backward()
 optimizer.step()    # Does the update
 </code></pre>
 
-<h2 id="toc_12">Training a classifier</h2>
+<h2 id="toc_11">Training a classifier</h2>
 
-<h2 id="toc_13">What about data?</h2>
+<h2 id="toc_12">What about data?</h2>
 
 <p>When you have to deal with image, text, audio or video data, you can use standard python packages that load data into a numpy array. Then you can convert this array into a <code>torch.*Tensor</code>.</p>
 
@@ -534,7 +532,7 @@ optimizer.step()    # Does the update
 <li>For text, either raw Python or Cython based loading, or NLTK and SpaCy are useful</li>
 </ul>
 
-<h2 id="toc_14">Training an image classifier</h2>
+<h2 id="toc_13">Training an image classifier</h2>
 
 <ul>
 <li>Load and normalizing the CIFAR10 training and test datasets using torchvision</li>
@@ -544,7 +542,7 @@ optimizer.step()    # Does the update
 <li>Test the network on the test data</li>
 </ul>
 
-<h3 id="toc_15">Loading and normalizing CIFAR10</h3>
+<h3 id="toc_14">Loading and normalizing CIFAR10</h3>
 
 <pre><code class="language-python">import torch
 import torchvision
@@ -602,7 +600,7 @@ print(&#39; &#39;.join(&#39;%5s&#39; % classes[labels[j]] for j in range(4)))
 <pre><code class="language-text">  cat   cat  deer  ship
 </code></pre>
 
-<h3 id="toc_16">Define a Convolutional Neural Network</h3>
+<h3 id="toc_15">Define a Convolutional Neural Network</h3>
 
 <pre><code class="language-python">import torch.nn.functional as F
 import torch.nn as nn
@@ -630,7 +628,7 @@ class Net(nn.Module):
 net = Net()
 </code></pre>
 
-<h3 id="toc_17">Define a Loss function and optimizer</h3>
+<h3 id="toc_16">Define a Loss function and optimizer</h3>
 
 <pre><code class="language-python">import torch.optim as optim
 
@@ -638,7 +636,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 </code></pre>
 
-<h3 id="toc_18">Train the network</h3>
+<h3 id="toc_17">Train the network</h3>
 
 <pre><code class="language-python">for epoch in range(2):  # loop over the dataset multiple times
     running_loss = 0.0
@@ -777,7 +775,7 @@ Accuracy of  ship : 72 %
 Accuracy of truck : 63 %
 </code></pre>
 
-<h3 id="toc_19">Training on GPU</h3>
+<h3 id="toc_18">Training on GPU</h3>
 
 <pre><code class="language-python">device = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
 
@@ -849,7 +847,7 @@ print(&#39;Accuracy of the network on the 10000 test images: %d %%&#39; % (
 <pre><code class="language-text">Accuracy of the network on the 10000 test images: 55 %
 </code></pre>
 
-<h2 id="toc_20">Training on multi gpus</h2>
+<h2 id="toc_19">Training on multi gpus</h2>
 
 <pre><code class="language-python">if torch.cuda.device_count() &gt; 1:
   print(&quot;Let&#39;s use&quot;, torch.cuda.device_count(), &quot;GPUs!&quot;)
