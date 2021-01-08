@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      
+    Motifs and structural roles in networks - 
+    
+    </title>
+    
+    
+    
+    <link href="atom.xml" rel="alternate" title="" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/style.css">
+    
+</head>
+  <body>
+
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                          <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                         
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+ 
+<div class="container">
+  <article class="post-container">
+    <header class="post-header">
+        <h1 class="post-title">Motifs and structural roles in networks</h1>
+        <p class="post-date">
+                <span>Posted <time datetime="2020/10/03" itemprop="datePublished">2020/10/03</time></span>
+            </p>
+    </header>
+
+    <div class="post-content clearfix">
+<ul>
+<li>
+<a href="#toc_0">Subgraphs</a>
+<ul>
+<li>
+<a href="#toc_1">Motif: Induced Subgraphs</a>
+</li>
+<li>
+<a href="#toc_2">Motifs: Recurrence</a>
+</li>
+<li>
+<a href="#toc_3">Motif： Significance</a>
+</li>
+<li>
+<a href="#toc_4">Configuration Model</a>
+</li>
+<li>
+<a href="#toc_5">Alternative for Spokes: Switching</a>
+</li>
+<li>
+<a href="#toc_6">本节总结</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_7">Graphlets: Node Feature Vectors</a>
+</li>
+<li>
+<a href="#toc_8">Finding Motifs and Graphlets</a>
+<ul>
+<li>
+<a href="#toc_9">Exact Subgraph Enumeration</a>
+</li>
+<li>
+<a href="#toc_10">Graph Isomorphism</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_11">Structural roles in networks</a>
+<ul>
+<li>
+<a href="#toc_12">Discovering Structural Roles in Networks</a>
+<ul>
+<li>
+<a href="#toc_13">RoIX: AutoMatic Discovery of nodes&#39; structural roles in network</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h2 id="toc_0">Subgraphs</h2>
+
+<p>何谓motif？ 图中反复出现的相互连接的模式，有以下三个特点：</p>
+
+<ul>
+<li>Pattern：小的能导出的子图；</li>
+<li>Recurring：频繁出现；</li>
+<li>Significant：模式的出现明显高于预期，如类似的random genderated networks中的模式；</li>
+</ul>
+
+<h3 id="toc_1">Motif: Induced Subgraphs</h3>
+
+<p><strong>Induced Subgraph</strong>如下图所示，图中红色框虽然也是3个节点构成的子图，但是该子图与待匹配的子图不匹配（连接不一致），而蓝色的三角框中的子图与待匹配的子图匹配， 匹配的意思是指必须是出现在待匹配子图里所有节点的边，如果不是待匹配节点之间的边，则不匹配；<br/>
+<img src="media/16017096445579/16017113719209.jpg" alt=""/></p>
+
+<h3 id="toc_2">Motifs: Recurrence</h3>
+
+<p>如下图，右侧图中出现了4个待匹配的motif，motif之间可以相互重叠； <br/>
+<img src="media/16017096445579/16017117035269.jpg" alt=""/></p>
+
+<h3 id="toc_3">Motif： Significance</h3>
+
+<p>如下图， 该motif在真实的网络中出现的频率要对类似的随机网络出现的频率要高的多， 我们成为其显著性明显；<br/>
+<img src="media/16017096445579/16017120299603.jpg" alt=""/></p>
+
+<p>显著性通常是和随机性网络做对比，通常使用\(Z_i\)来描述motif i的显著性， 其中\(N_{i}^{real}\)表示真实网络中motif i的数量， \(N_{i}^{rand}\)表示在随机网络中motif i的数量：</p>
+
+<p>\[Z_i = \frac{(N_{i}^{real}-N_{avg\ i}^{rand})}{std(N_{i}^{rand})}\]</p>
+
+<p>上面的计算会随着网络规模的不同而有数值的变化，而大的网络会倾向于有更大的Z-score， 归一化处理之后，使用<strong>Net significance profile</strong>来表示，motif i的SP计算公式如下：</p>
+
+<p>\[SP_{i}= \frac{Z_{i}}{\sqrt{\sum_{j}{Z_{j}^{2}}}}\]</p>
+
+<h3 id="toc_4">Configuration Model</h3>
+
+<p>配置一个和真实网络相同的度序列的随机图可以分为三步：</p>
+
+<ol>
+<li>按节点的度序列生成Node spokes；</li>
+<li>随机从nodes spokes中挑选两个连接起来；</li>
+<li>根据源节点和目标节点，将步骤2中聚合起来，即形成和真实网络相同度序列的随机网络；</li>
+</ol>
+
+<p><img src="media/16017096445579/16017133097101.jpg" alt=""/></p>
+
+<h3 id="toc_5">Alternative for Spokes: Switching</h3>
+
+<p>另一个产生于源图类似的图的方法就是随机做边交换，具体步骤如下：</p>
+
+<ol>
+<li>从源图中随机找出边如，A-&gt;B, C-&gt;D，随机交换边的终点产生边A-&gt;D, C-&gt;B， 如果交换导致自己指向自己，则不交换；</li>
+<li>重复1中，Q次， 当Q足够大时，即可生成随机图；</li>
+</ol>
+
+<h3 id="toc_6">本节总结</h3>
+
+<p>经过上面的定义与解释之后，我们就可以定义如何检测一个motif：</p>
+
+<ol>
+<li>在真实图中，统计induced subgraph的个数；</li>
+<li>统计生成的随机网络中的induced subgraph的个数， 这里随机生成的网络，可以生成多个做对比；</li>
+<li><p>计算Z-score， 那些高的Z-score就是我们需要的motif；</p>
+<p>motif也有相应的变种， 如不同的频率概念、不同的显著性计算标准、null model的不同约束等等，但基本上都是万变不离其宗；</p></li>
+</ol>
+
+<h2 id="toc_7">Graphlets: Node Feature Vectors</h2>
+
+<p>Graphlet是基础的由节点构成的基础子图单位，由两个节点开始，下图是2-5个节点的graphlet示例图：<br/>
+<img src="media/16017096445579/16017149303054.jpg" alt=""/><br/>
+那么，如何由graphlet来改造节点的特征呢？<br/>
+之前我们提到的度，是指每个节点能够接触到的边数，这里我们扩展Graphlet degress vector，用来表示节点v能够接触到的graphlet的数量， 如下图，graphlet有a, b, c, d, 注意这里d和c画在一张图上, 这样我就可以用2, 1, 0, 2来表示节点V：<br/>
+<img src="media/16017096445579/16017150379200.jpg" alt=""/></p>
+
+<p>Graphlet degree vector的意义在与它提供了对于一个节点的本地网络拓扑的度量，这样可以比较两个节点的GDV来度量它们的相似度。由于Graphlet的数量随着节点的增加可以很快变得非常大，所以一般会选择2-5个节点的Graphlet来标识一个节点的GDV。</p>
+
+<h2 id="toc_8">Finding Motifs and Graphlets</h2>
+
+<p>在一个图里识别出一种特定大小的motifs和graphlet，并计算它的数量是非常难的一个问题。识别是否是同构子图本身就是一个NP-hard的问题：计算量也会随着节点数的增加而呈指数增长，因此， 一般只识别节点数较小如3-8的motif或者graphlet。</p>
+
+<h3 id="toc_9">Exact Subgraph Enumeration</h3>
+
+<p>ESU从一个节点\(v\)开始，算法分为两个集合：\(V_{subgraph}\):表示当前构造的子图，\(V_{extension}\)：表示能够扩展motif的候选节点， 将满足以下两个条件的节点\(u\)加入到\(V_{extension}\)：</p>
+
+<ol>
+<li>\(u\)的节点id要大于v的id；</li>
+<li>\(u\)只能是新加入加点\(w\)的邻居，而不能是\(V_{subgraph}\)里的节点邻居；</li>
+</ol>
+
+<p>伪代码逻辑如下：<br/>
+<img src="media/16017096445579/16017169702979.jpg" alt=""/></p>
+
+<p>如下图就很容易理解了， 从不同的点出发， 比如node 1， node 1的邻居只有3， 所以开始extendsion为3， node2， 其邻居只有3， 所以extension为3， node 3， 其邻居有1、2、4、5，为保证id要大于node 3， 所以extension为4、5， node 4， 邻居有3、5， 保证id大于4所以extension为5， 第二层将exetension加入到subgraph， 且此时exetension要是新加入节点，如最左边分支，新加入节点为3，exetension要讲node 3的邻居加入，且保证大于node1 ， 即exetension变为2，4，5；左起第二个， 将exetension 中node 3加入， node3的邻居节点有1、2、4、5， 其中只有4、5大于原先subgraph中的2， 所有exetension为4、5， 以此类推即可，最终所有大小为3的子图即可遍历出来；<br/>
+<img src="media/16017096445579/16017171725519.jpg" alt=""/></p>
+
+<p>到目前为止， 我们就可以遍历出所有大小为的子图， 接下来我们只需要统计下这些图即可， 如下图所示， 需要判断是否为同构图，即拓扑结构完全一致：<br/>
+<img src="media/16017096445579/16017182837335.jpg" alt=""/></p>
+
+<h3 id="toc_10">Graph Isomorphism</h3>
+
+<p>如何判定两个图是同构？<br/>
+如果图\(G\)和\(H\)是同构的，那么必定存在一个双向映射\(f: V_{(G}-&gt;H_{(H)}\)保证任意两个节点u和v在图G里面是相邻的，则\(f ( u )\) 和\(f ( v )\)在图H里也是相邻的, 检查图是否重构是一个NP难题</p>
+
+<p><img src="media/16017096445579/16017185650015.jpg" alt=""/></p>
+
+<h2 id="toc_11">Structural roles in networks</h2>
+
+<p>Role: 角色， 是对节点在网络中功能的描述， 是有相同结构特征的点，相同角色的节点并不一定直接相连，而Group/Communities(社群)， 是彼此相互密集连接的节点群；</p>
+
+<p>视频中举了个例子，假定一个计算机系构建一个社交网络，其中：</p>
+
+<ul>
+<li>角色指： 教职、职员、学生；</li>
+<li>社群指： AILab、Info Lab、 Theory Lab等；</li>
+</ul>
+
+<p><img src="media/16017096445579/16017190758770.jpg" alt=""/></p>
+
+<p>如果节点u和节点v和所有其他节点有相同的关系，则说明节点u和节点v在<strong>结构上等同</strong>， 如下图中u和v完全相同；<br/>
+<img src="media/16017096445579/16017191551998.jpg" alt=""/></p>
+
+<h3 id="toc_12">Discovering Structural Roles in Networks</h3>
+
+<p>为什么要研究图当中的role ？如下图：</p>
+
+<p><img src="media/16017096445579/16017193904639.jpg" alt=""/></p>
+
+<h4 id="toc_13">RoIX: AutoMatic Discovery of nodes&#39; structural roles in network</h4>
+
+<p>RoIX特点如下：</p>
+
+<ul>
+<li>非监督学习方法；</li>
+<li>无需先验知识；</li>
+<li>支持多种角色分类；</li>
+<li>按边数线性扩展；</li>
+</ul>
+
+<p><img src="media/16017096445579/16017339015292.jpg" alt=""/></p>
+
+<p>RoIX过程如下图， 其中最重要的Recursive Feature Extraction.<br/>
+<img src="media/16017096445579/16017339215442.jpg" alt=""/><br/>
+Recursive Feature Extraction是基于图的结构详细，从某一节点出发，聚合该节点的特征，如有向图中，该特征未出度、入度、度等等，其次基于该node的邻居、包含该节点的可导出子图，这称之为Egonet，也会提取Egonet中节点的特征。以此类推，用这种方法提取到的特征，是指数级增长，后续会使用裁剪技术将部分特征裁剪掉；<img src="media/16017096445579/16017347294623.jpg" alt=""/></p>
+
+<p>最终，每一个节点会由如下图的向量表示， 然后采用non negative matrix factorization（KL离散度距离来评估似然度） 即可完成流程图中node * role matrix与role * feature matrix的生成：<br/>
+<img src="media/16017096445579/16017347796677.jpg" alt=""/></p>
+
+    </div>
+    <footer class="post-footer clearfix">
+      <p class="post-categories">
+        <span>Categories:</span>
+        
+            <a href="%E5%9B%BE%E8%AE%A1%E7%AE%97.html">图计算</span>, 
+           
+      </p>
+        
+    </footer>
+     <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div><!-- end comments wrap -->
+  </article>
+ </div><!-- end-->
+
+
+
+    <footer class="footer">
+            <div class="container">
+                <div class="site-footer-wrapper">
+                        <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                                                
+                </div>
+                <div class="site-menu-wrapper">
+                  &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="self" class="" href="index.html">Home</a>
+                    &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="_self" class="" href="archives.html">Archives</a>
+                    &nbsp;<span>|</span>&nbsp;
+                                             
+                </div>
+
+                <p class="footer-copyright">
+                        Copyright &copy; 2019
+                        Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+                        Theme used <a target="_blank" href="https://blog.timac.org">Timac</a>.
+                </p>
+            </div>
+        </footer>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      
+  
+    
+
+
+    </body>
+</html>

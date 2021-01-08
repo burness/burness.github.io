@@ -1,0 +1,444 @@
+
+
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      
+    前记 - 
+    
+    </title>
+    
+    
+    
+    <link href="atom.xml" rel="alternate" title="" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/style.css">
+    
+</head>
+  <body>
+
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                          <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                         
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+ 
+<div class="container">
+  <article class="post-container">
+    <header class="post-header">
+        <h1 class="post-title">前记</h1>
+        <p class="post-date">
+                <span>Posted <time datetime="2019/11/23" itemprop="datePublished">2019/11/23</time></span>
+            </p>
+    </header>
+
+    <div class="post-content clearfix">
+<p>这段时间，工作当中杂事比较多，有点像充当产品经理，去给算法业务的同学去安利我们最近完成的一些东西，感觉自己几乎没啥提升，希望这样的日子快点过去，公众号也落下了，主要原因是最近事比较多，又加上还迷上了抖音 什么东北酱，周末一躺就过去了。加上最近网上暴力被裁事情、明星猝死，突然发现中年危机可能就要在眼前，作为最老一批90年后，也马上要30了，但是觉得荒废下去好像也是蛮爽的。哎，迷茫而惆怅的中年危机恐怕是真的要到来了。回到正题，好久没有写过技术文章，最近又开始在读XDL的代码，这次我重点关注在底层，真的觉得质量很高，无愧是阿里妈妈吗的工作，但是无奈基础太差，又加上XDL除了代码开头的license生命几乎没有一行注释， 这里如果有XDL的小伙伴看到，希望把注释补一补，东西是不错，但是也要考虑下我们的水平吧。</p>
+
+<p>本章文章是看到XDL代码之后，发现它自己写了自己的内存管理，这块我之前完全不懂，google一波才明白一些，而TensorFlow本身其实也有一些memory allocation的工作，本章会详细说明下BFC这块的工作。</p>
+
+<h1 id="toc_0">TensorFlow Memory Manage</h1>
+
+<p>BFC是Best fit with coalescing的缩写，下面截图是TensorFlow源码config.proto，其中有关于内存、显存管理的注释文档，BFC是dlmalloc的一个简化版本，DLmalloc是啥，大家不明白没关系，直接理解为内存分配上一个特别硬核的工作，当前很多内存分配的算法很多受其影响。【memory allocate是操作系统下特别复杂的一项工作，如要系统了解，建议读读下OS经典教材memoey manage的几章】。<br/>
+<img src="media/15744799610685/15745009823333.jpg" alt=""/></p>
+
+<h2 id="toc_1">TensorFlow Memory Allocator</h2>
+
+<h3 id="toc_2">BFCAllocator</h3>
+
+<p>TensorFlow针对不同的设备，比如cpu下的mkl的allocator，cuda下的allocator，其实现都是有很大的差异的。本文不可能一一详述，仅针对bfc_allocator相关的逻辑进行描述，由于作者在这块经验较少，有任何发现疑问以及问题的请在评论区留言，大家来一起讨论</p>
+
+<h4 id="toc_3">Allocator: Abstract interface for allocating and deallocating device memory</h4>
+
+<pre><code class="language-text">class Allocator {
+ public:
+  static constexpr size_t kAllocatorAlignment = 64;
+
+  virtual ~Allocator();
+
+  virtual string Name() = 0;
+
+  virtual void* AllocateRaw(size_t alignment, size_t num_bytes) = 0;
+
+  virtual void* AllocateRaw(size_t alignment, size_t num_bytes,
+                            const AllocationAttributes&amp; allocation_attr) {
+    return AllocateRaw(alignment, num_bytes);
+  }
+
+  virtual void DeallocateRaw(void* ptr) = 0;
+
+  virtual size_t RequestedSize(const void* ptr) const {
+    CHECK(false) &lt;&lt; &quot;allocator doesn&#39;t track sizes&quot;;
+    return size_t(0);
+  }
+
+  virtual size_t AllocatedSize(const void* ptr) const {
+    return RequestedSize(ptr);
+  }
+
+  virtual int64 AllocationId(const void* ptr) const { return 0; }
+  virtual size_t AllocatedSizeSlow(const void* ptr) const {
+    if (TracksAllocationSizes()) {
+      return AllocatedSize(ptr);
+    }
+    return 0;
+  }
+
+  virtual absl::optional&lt;AllocatorStats&gt; GetStats() { return absl::nullopt; }
+
+  virtual void ClearStats() {}
+
+  virtual void SetSafeFrontier(uint64 count) {}
+};
+
+
+
+struct AllocationAttributes {
+  AllocationAttributes() = default;
+
+  AllocationAttributes(bool no_retry_on_failure, bool allocation_will_be_logged,
+                       std::function&lt;uint64()&gt;* freed_by_func)
+      : no_retry_on_failure(no_retry_on_failure),
+        allocation_will_be_logged(allocation_will_be_logged),
+        freed_by_func(freed_by_func) {}
+
+  bool no_retry_on_failure = false;
+  bool allocation_will_be_logged = false;
+  std::function&lt;uint64()&gt;* freed_by_func = nullptr;  // Not owned.
+
+  TF_DISALLOW_COPY_AND_ASSIGN(AllocationAttributes);
+};
+
+
+struct AllocatorStats {
+  int64 num_allocs;          // Number of allocations.
+  int64 bytes_in_use;        // Number of bytes in use.
+  int64 peak_bytes_in_use;   // The peak bytes in use.
+  int64 largest_alloc_size;  // The largest single allocation seen.
+
+  absl::optional&lt;int64&gt; bytes_limit;
+
+  int64 bytes_reserved;       // Number of bytes reserved.
+  int64 peak_bytes_reserved;  // The peak number of bytes reserved.
+  absl::optional&lt;int64&gt; bytes_reservable_limit;
+
+  AllocatorStats()
+      : num_allocs(0),
+        bytes_in_use(0),
+        peak_bytes_in_use(0),
+        largest_alloc_size(0),
+        bytes_reserved(0),
+        peak_bytes_reserved(0) {}
+
+  string DebugString() const;
+};
+</code></pre>
+
+<p>TensorFlow 内存分配与回收的抽象接口，封装<code>Name</code>, <code>AllocateRaw</code>, <code>DellocateRaw</code>, <code>TracksAllocationSize</code>, <code>AllocatesOpaqueHandle</code>, <code>RequestedSize</code>, <code>AllocatedSize</code>, <code>AllocationId</code>, <code>AllocatedSizeSlow</code>, <code>GetStats</code>, <code>ClearStats</code>, <code>SetSafeFrontier</code>。</p>
+
+<p>这些逻辑作为父类的纯虚接口，由子类去实现，BFCAllocator的详细接口信息如下：<br/>
+<img src="media/15744799610685/15750976484848.jpg" alt=""/></p>
+
+<p>在此之前，BFCAllocator下的两个比较重要的数据结构， Chunk和Bin，两者之间的关系如下图，看起来像一个个糖葫芦，第一个bin size为256&lt;<1， 第二个为256<<2, 一次类推，TF内有21个bin，最后bin size 为256 << 21为512MB，每一个bin下面会接下若干个大于bin size的chunk，整个内存空间由以下的结构来组织，当分配内存大小指定时，系统会遍历bin，找到能够第一次满足chunk > bin_size,每一个bin下的chunk是有序的（Bin下的ChunkComparator）<br/>
+<img src="media/15744799610685/15750985485415.jpg" alt=""/></p>
+
+<h4 id="toc_4">Chunk</h4>
+
+<p><img src="media/15744799610685/15748482140020.jpg" alt=""/></p>
+
+<pre><code class="language-text">struct Chunk {
+    size_t size = 0;
+    size_t requested_size = 0;
+    int64 allocation_id = -1;
+    void* ptr = nullptr;  // pointer to granted subbuffer.
+    ChunkHandle prev = kInvalidChunkHandle;
+    ChunkHandle next = kInvalidChunkHandle;
+    BinNum bin_num = kInvalidBinNum;
+
+    // Optional count when this chunk was most recently made free.
+    uint64 freed_at_count = 0;
+    bool in_use() const { return allocation_id != -1; }
+    string DebugString(BFCAllocator* a,
+                       bool recurse) NO_THREAD_SAFETY_ANALYSIS {
+      string dbg;
+      strings::StrAppend(
+          &amp;dbg, &quot;  Size: &quot;, strings::HumanReadableNumBytes(size),
+          &quot; | Requested Size: &quot;, strings::HumanReadableNumBytes(requested_size),
+          &quot; | in_use: &quot;, in_use(), &quot; | bin_num: &quot;, bin_num);
+      if (recurse &amp;&amp; prev != BFCAllocator::kInvalidChunkHandle) {
+        Chunk* p = a-&gt;ChunkFromHandle(prev);
+        strings::StrAppend(&amp;dbg, &quot;, prev: &quot;, p-&gt;DebugString(a, false));
+      }
+      if (recurse &amp;&amp; next != BFCAllocator::kInvalidChunkHandle) {
+        Chunk* n = a-&gt;ChunkFromHandle(next);
+        strings::StrAppend(&amp;dbg, &quot;, next: &quot;, n-&gt;DebugString(a, false));
+      }
+      return dbg;
+    }
+  };
+</code></pre>
+
+<h4 id="toc_5">Bin</h4>
+
+<p><img src="media/15744799610685/15750983549011.jpg" alt=""/></p>
+
+<pre><code class="language-text">struct Bin {
+    // All chunks in this bin have &gt;= bin_size memory.
+    size_t bin_size = 0;
+
+    class ChunkComparator {
+     public:
+      explicit ChunkComparator(BFCAllocator* allocator)
+          : allocator_(allocator) {}
+      bool operator()(const ChunkHandle ha,
+                      const ChunkHandle hb) const NO_THREAD_SAFETY_ANALYSIS {
+        const Chunk* a = allocator_-&gt;ChunkFromHandle(ha);
+        const Chunk* b = allocator_-&gt;ChunkFromHandle(hb);
+        if (a-&gt;size != b-&gt;size) {
+          return a-&gt;size &lt; b-&gt;size;
+        }
+        return a-&gt;ptr &lt; b-&gt;ptr;
+      }
+
+     private:
+      BFCAllocator* allocator_;  // The parent allocator
+    };
+
+    typedef std::set&lt;ChunkHandle, ChunkComparator&gt; FreeChunkSet;
+
+    FreeChunkSet free_chunks;
+    Bin(BFCAllocator* allocator, size_t bs)
+        : bin_size(bs), free_chunks(ChunkComparator(allocator)) {}
+  };
+</code></pre>
+
+<h4 id="toc_6">分配内存</h4>
+
+<ul>
+<li>rounded_bytes: 保证内存对齐；</li>
+<li>BinNumForSize(rounded_bytes):找到对应的BinNum；</li>
+<li>MergeTimestampedChunks: 如果timestamped_chunks_不为空， （required_bytes==0,这里还不是特别理解， 有理解清楚的可以在文章后面评论），则合并；</li>
+<li>FindChunkPtr:
+<ul>
+<li>找到第一个满足rounded_bytes的bin；</li>
+<li>从free_chunks中删除大于rounded_bytes的chunk， 从free_chunks移除；</li>
+<li>若chunk大小为rounded_bytes的两倍,或者chunk大小比rounded_bytes 大128mb以上， 会将chunk split成满足rounded_bytes和剩余大小的chunk, 然后将后者插入合适bin的free_chunks；</li>
+</ul></li>
+<li>如果FindChunkPtr没找到合适的chunk，则尝试Extend
+<ul>
+<li>如果available_bytes&lt;rounded_bytes，则返回false；</li>
+<li>如果当前curr_region_allocation_bytes_小于rounded_bytes,则curr_region_allocation_bytes翻倍，直到满足大于rounded_bytes;</li>
+<li>调用sub_allocator来分配内存块，分配bytes大小为min(rounded_bytes, curr_region_allocation_bytes)， 若未能成功分配，则一直尝试分配0.9*bytes， 若最后也未分配成功，则extend失败；</li>
+<li>分配好内存块之后，创建对应的chunk，这个chunk里保存了，内存块地址等信息，并将chunk插入到对应bin；</li>
+</ul></li>
+<li>如果Extend也fail了， 则再次尝试MergeTimestampedChunks来是否满足round_bytes, （这里会聚合最近释放的内存块，直到满足rounded_bytes）;</li>
+<li><p>若再次MergeTimestampedChunks之后还是无法分配合适的内存块，系统会再次尝试释放已经free的regions，然后尝试extend来满足是否能满足分配rounded_Bytes， 如还是fail，则返回空指针，Allocate 失败；</p>
+<pre><code class="language-text">void* BFCAllocator::AllocateRawInternal(size_t unused_alignment,
+                                        size_t num_bytes,<br/>
+                                        bool dump_log_on_failure,<br/>
+                                        uint64 freed_before) {<br/>
+  if (num_bytes == 0) {<br/>
+    VLOG(2) &lt;&lt; &quot;tried to allocate 0 bytes&quot;;<br/>
+    return nullptr;<br/>
+  }<br/>
+  size_t rounded_bytes = RoundedBytes(num_bytes);<br/>
+  BinNum bin_num = BinNumForSize(rounded_bytes);<br/>
+  mutex_lock l(lock_);<br/>
+  if (!timestamped_chunks_.empty()) {<br/>
+    MergeTimestampedChunks(0);<br/>
+  }<br/>
+  void* ptr = FindChunkPtr(bin_num, rounded_bytes, num_bytes, freed_before);<br/>
+  if (ptr != nullptr) {<br/>
+    return ptr;<br/>
+  }<br/>
+  if (Extend(unused_alignment, rounded_bytes)) {<br/>
+    ptr = FindChunkPtr(bin_num, rounded_bytes, num_bytes, freed_before);<br/>
+    if (ptr != nullptr) {<br/>
+      return ptr;<br/>
+    }<br/>
+  }<br/>
+  if ((freed_before == 0) &amp;&amp; (!timestamped_chunks_.empty())) {<br/>
+    if (MergeTimestampedChunks(rounded_bytes)) {<br/>
+      ptr = FindChunkPtr(bin_num, rounded_bytes, num_bytes, freed_before);<br/>
+      if (ptr != nullptr) {<br/>
+        return ptr;<br/>
+      }<br/>
+    }<br/>
+  }<br/>
+  if (DeallocateFreeRegions(rounded_bytes) &amp;&amp;<br/>
+      Extend(unused_alignment, rounded_bytes)) {<br/>
+    ptr = FindChunkPtr(bin_num, rounded_bytes, num_bytes, freed_before);<br/>
+    if (ptr != nullptr) {<br/>
+      return ptr;<br/>
+    }<br/>
+  }
+</code></pre></li>
+</ul>
+
+<h4 id="toc_7">释放内存</h4>
+
+<ul>
+<li>首先，判断ptr是否为空指针，如是，则不作后续操作；</li>
+<li>region_manager_.get_handle(ptr) 找到对应chunkhandle, 然后将handle标记为free，具体有application_id赋值为-1， 若timing_counter_为true，则记录释放内存时间；</li>
+<li><p>调用InsertFreeChunkIntoBin，将已标记为free的chunk插入到合适的Bin中，释放内存完成；</p>
+<pre><code class="language-text">void BFCAllocator::DeallocateRawInternal(void* ptr) {
+  if (ptr == nullptr) {<br/>
+    VLOG(2) &lt;&lt; &quot;tried to deallocate nullptr&quot;;<br/>
+    return;<br/>
+  }<br/>
+  mutex_lock l(lock_);<br/>
+  // Find the chunk from the ptr.<br/>
+  BFCAllocator::ChunkHandle h = region_manager_.get_handle(ptr);<br/>
+  CHECK(h != kInvalidChunkHandle);<br/>
+  MarkFree(h);<br/>
+  // Consider coalescing it.<br/>
+  if (timing_counter_) {<br/>
+    InsertFreeChunkIntoBin(h);<br/>
+    timestamped_chunks_.push_back(h);<br/>
+  } else {<br/>
+    InsertFreeChunkIntoBin(TryToCoalesce(h, false));<br/>
+  }<br/>
+  if (VLOG_IS_ON(4)) {<br/>
+    LOG(INFO) &lt;&lt; &quot;F: &quot; &lt;&lt; RenderOccupancy();<br/>
+  }<br/>
+}
+</code></pre></li>
+</ul>
+
+<h4 id="toc_8">读源码的方法</h4>
+
+<p>我发现看懂了一部分代码之后，再写出来就显得很简单，这个对于读者不是什么好事情，很多小伙伴很有心地去阅读某些框架的底层源码，但是很多时候理解不了，下面我分享给小伙伴几个方法：</p>
+
+<ul>
+<li>专项学习某些知识点，比如你看的源码部分是memory manager，你可以去找一些国内外教材、教学视频， 先理解清楚其中概念；</li>
+<li>至少完整看两遍代码：第一遍，不要嫌麻烦，将每个类的所有的成员函数、成员变量画出来，更给力的是讲类间的关系引用也画出来；第二遍，再逐个函数把逻辑理清楚；</li>
+<li>看完之后建议写篇文章来描述下，以后忘记了再稍微看看能搞清楚；</li>
+</ul>
+
+<h4 id="toc_9">感兴趣的家庭作业</h4>
+
+<p>XDL代码里面有其他不同的allocator如buddy_allocator, slab_allocator, slab_buddy_allocator，如果有人感兴趣可以按照我前面提的方法来理解下这几块内容，大家一起学习、讨论。</p>
+
+    </div>
+    <footer class="post-footer clearfix">
+      <p class="post-categories">
+        <span>Categories:</span>
+        
+            <a href="TensorFlow.html">TensorFlow</span>, 
+           
+      </p>
+        
+    </footer>
+     <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div><!-- end comments wrap -->
+  </article>
+ </div><!-- end-->
+
+
+
+    <footer class="footer">
+            <div class="container">
+                <div class="site-footer-wrapper">
+                        <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                                                
+                </div>
+                <div class="site-menu-wrapper">
+                  &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="self" class="" href="index.html">Home</a>
+                    &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="_self" class="" href="archives.html">Archives</a>
+                    &nbsp;<span>|</span>&nbsp;
+                                             
+                </div>
+
+                <p class="footer-copyright">
+                        Copyright &copy; 2019
+                        Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+                        Theme used <a target="_blank" href="https://blog.timac.org">Timac</a>.
+                </p>
+            </div>
+        </footer>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+        
+      
+  
+    
+
+
+    </body>
+</html>

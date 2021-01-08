@@ -1,0 +1,601 @@
+
+
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      
+    Maybe Best Practice With Sparse Machine Learning In TensorFlow - 
+    
+    </title>
+    
+    
+    
+    <link href="atom.xml" rel="alternate" title="" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/style.css">
+    
+</head>
+  <body>
+
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                          <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                         
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+ 
+<div class="container">
+  <article class="post-container">
+    <header class="post-header">
+        <h1 class="post-title">Maybe Best Practice With Sparse Machine Learning In TensorFlow</h1>
+        <p class="post-date">
+                <span>Posted <time datetime="2018/11/24" itemprop="datePublished">2018/11/24</time></span>
+            </p>
+    </header>
+
+    <div class="post-content clearfix">
+<h2 id="toc_0">TensorFlow现状及背景</h2>
+
+<p>在机器学习这块，Estimator本身的封装能够适应比较多的Dense的场景，而对于Sparse的场景无论是官方demo还是一些业界的大牛都分享的比较少，在很多场景，比如libfm、libffm、Xgboost都支持直接libsvm, field-libsvm的格式中读入数据，训练模型没有原始的实现，没法直接调包使用，得自己在TensorFlow的框架上构造，所幸Estimator本身的框架支持自定义的input_fn，和自定义的model_fn，笔者过去一段时间工作之余研究了下，并实现了基于libsvm的Sparse Logistic Regression和Sparse Factorization Machine， 打通了从数据读取、模型训练、到TensorFlow Serving的部署。</p>
+
+<h2 id="toc_1">TensorFlow中的sparse_tensor实现</h2>
+
+<p>我们读下sparse_tensor的源码，<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/framework/sparse_tensor.py">sparse_tensor.py</a>, 很容易看出来sparse_tensor在TensorFlow中是一个高层的封装，主要包括indices, values, shape三个部分，这里很有意思，后面我实践中遇到一个大坑，可以通过这里解决，这里我先卖个关子；</p>
+
+<h3 id="toc_2">sparse representation的好处</h3>
+
+<p>常见的稀疏矩阵的表示有csc，csr，在很多矩阵计算的库当中有使用，比如python中大家使用比较多的scipy，TensorFlow底层计算模块eigen，都是用类似的方式来表示稀疏矩阵，举个例子比如某个商户有500万个商品，而用户产生行为的商品必定远远小于500万，如果都是用dense表示，那么保存单个用户行为的商品数据需要500万个指，而采用稀疏数据表示则保存所需要的空间只需要和你才产生行为的商品数量有关，如下图100个用户的在500w上的行为数据如果用dense表示需要大概3G的空间；<br/>
+<img src="media/15430699092916/15430700826674.jpg" alt=""/><br/>
+需要保存100*5000000个int，而使用csc_matrix，</p>
+
+<pre><code class="language-text">row = np.array(range(100))
+col = np.zeros(100)
+data = np.ones(100)
+csc_matrix((data, (row, col)), shape=(100, 5000000))
+</code></pre>
+
+<p>我们只需要保存3*NNZ（这里就是100）个int，然后加上一个shape信息，空间占用大大减少；<br/>
+在内存中，我们通常使用csc来表示Sparse Matrix，而在样本保存中，通常使用libsvm格式来保存</p>
+
+<pre><code class="language-text">1 1:1 2:1 3:1 4:1 5:1 6:1 7:1 8:0.301 9:0.602 10:1 11:1 12:1 13:1 14:1 15:1 16:1 17:1 18:1 19:1 20:1 21:1 22:1
+</code></pre>
+
+<p>以空格为sep，label为1， 后续为feature的表示，格式为feature_id: feature_val, 在TensorFlow中我们可以使用TextlineDataset自定义input_fn来解析文本，其他很多相关的技术文章都有提及，但是作为一个程序员总感觉不想走已经走过的路，而且TF官宣tfrecord的读写效率高， 考虑到效率问题，我这里使用TFRecordDataset来做数据的读取；</p>
+
+<h3 id="toc_3">LibSVM To TFRecord</h3>
+
+<p>解析LibSVM feature_ids, 和feature_vals， 很简单没有啥好说的， 直接贴代码，想要深入了解的，可以去看看TF的<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/example.proto">example.proto</a>, <a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/feature.proto">feature.proto</a>, 就大概能了解Example和Feature的逻辑了，不用闷闷地只知道别人是这样写的。</p>
+
+<pre><code class="language-text">import codecs
+import tensorflow as tf
+import logging
+
+
+logger = logging.getLogger(&quot;TFRecSYS&quot;)
+sh = logging.StreamHandler(stream=None)
+logger.setLevel(logging.DEBUG)
+fmt = &quot;%(asctime)-15s %(levelname)s %(filename)s %(lineno)d %(process)d %(message)s&quot;
+datefmt = &quot;%a %d %b %Y %H:%M:%S&quot;
+formatter = logging.Formatter(fmt, datefmt)
+sh.setFormatter(formatter)
+logger.addHandler(sh)
+
+class LibSVM2TFRecord(object):
+    def __init__(self, libsvm_filenames, tfrecord_filename, info_interval=10000, tfrecord_large_line_num = 10000000):
+        self.libsvm_filenames = libsvm_filenames
+        self.tfrecord_filename = tfrecord_filename
+        self.info_interval = info_interval
+        self.tfrecord_large_line_num = tfrecord_large_line_num
+
+    def set_transform_files(self, libsvm_filenames, tfrecord_filename):
+        self.libsvm_filenames = libsvm_filenames
+        self.tfrecord_filename = tfrecord_filename
+
+    def fit(self):
+        logger.info(self.libsvm_filenames)
+        writer = tf.python_io.TFRecordWriter(self.tfrecord_filename+&quot;.tfrecord&quot;)
+        tfrecord_num = 1
+        for libsvm_filename in self.libsvm_filenames:
+            logger.info(&quot;Begin to process {0}&quot;.format(libsvm_filename))
+            with codecs.open(libsvm_filename, mode=&#39;r&#39;, encoding=&#39;utf-8&#39;) as fread:
+                line = fread.readline()
+                line_num = 0
+                while line:
+                    line = fread.readline()
+                    line_num += 1
+                    if line_num % self.info_interval == 0:
+                        logger.info(&quot;Processing the {0} line sample&quot;.format(line_num))
+                    if line_num % self.tfrecord_large_line_num == 0:
+                        writer.close()
+                        tfrecord_file_component = self.tfrecord_filename.split(&quot;.&quot;)
+                        self.tfrecord_filename = self.tfrecord_filename.split(&quot;_&quot;)[0]+&quot;_%05d.tfrecord&quot;%tfrecord_num
+                        writer = tf.python_io.TFRecordWriter(self.tfrecord_filename)
+                        tfrecord_num += 1
+                        logger.info(&quot;Change the tfrecord file to {0}&quot;.format(self.tfrecord_filename))
+                    feature_ids = []
+                    vals = []
+                    line_components = line.strip().split(&quot; &quot;)
+                    try:
+                        # label = 1.0 if line_components[0] == &quot;+1&quot; else 0.0
+                        label = float(line_components[0])
+                        features = line_components[1:]
+                    except IndexError:
+                        logger.info(&quot;Index Error, line: {0}&quot;.format(line))
+                        continue
+                    for feature in features:
+                        feature_components = feature.split(&quot;:&quot;)
+                        try:
+                            feature_id = int(feature_components[0])
+                            val = float(feature_components[1])                        
+                        except IndexError:
+                            logger.info(&quot;Index Error: , feature_components: {0}&quot;,format(feature))
+                            continue
+                        except ValueError:
+                            logger.info(&quot;Value Error: feature_components[0]: {0}&quot;.format(feature_components[0]) )
+                        feature_ids.append(feature_id)
+                        vals.append(val)
+                    tfrecord_feature = {
+                        &quot;label&quot; : tf.train.Feature(float_list=tf.train.FloatList(value=[label])),
+                        &quot;feature_ids&quot;: tf.train.Feature(int64_list=tf.train.Int64List(value=feature_ids)),
+                        &quot;feature_vals&quot;: tf.train.Feature(float_list=tf.train.FloatList(value=vals))
+                    }
+                    example = tf.train.Example(features=tf.train.Features(feature=tfrecord_feature))
+                    writer.write(example.SerializeToString())
+                writer.close()
+            logger.info(&quot;libsvm: {0} transform to tfrecord: {1} successfully&quot;.format(libsvm_filename, self.tfrecord_filename))
+
+if __name__ == &quot;__main__&quot;:
+    libsvm_to_tfrecord = LibSVM2TFRecord([&quot;../../data/kdd2010/kdda.libsvm&quot;], &quot;../../data/kdd2010/kdda&quot;)
+    libsvm_to_tfrecord.fit()
+</code></pre>
+
+<p><img src="media/15430699092916/15430710947264.jpg" alt=""/></p>
+
+<p>转成tfrecord文件之后，通常比原始的文件要大一些，具体的格式的说明参考下<a href="https://cloud.tencent.com/developer/article/1088751">https://cloud.tencent.com/developer/article/1088751</a> 这篇文章比较详细地介绍了转tfrecord和解析tfrecord的用法，另外关于shuffle的buff size的问题，个人感觉问题并不大，在推荐场景下，数据条数多，其实内存消耗也不大，只是在运行前会有比较长载入解析的时间，另外一个问题是，大家应该都会提问的，为啥tfrecord会比自己写input_fn去接下文本文件最后来的快呢？<br/>
+这里我只能浅层意义上去猜测，这部分代码没有拎出来读过，所以不做回复哈，有读过源码，了解比较深的同学可以解释下</p>
+
+<h3 id="toc_4">TFRecord的解析</h3>
+
+<pre><code class="language-text">import tensorflow as tf
+
+class LibSVMInputReader(object):
+    def __init__(self, file_queue, batch_size, capacity, min_after_dequeue):
+        self.file_queue = file_queue
+        self.batch_size = batch_size
+        self.capacity = capacity
+        self.min_after_dequeue = min_after_dequeue
+
+def read(self):
+    reader = tf.TFRecordReader()
+    _, serialized_example = reader.read(self.file_queue)
+    shuffle_batch_example = tf.train.shuffle_batch([serialized_example], 
+                            batch_size=self.batch_size, capacity=self.capacity,
+                            min_after_dequeue=self.min_after_dequeue)
+    features = tf.parse_example(shuffle_batch_example, features={
+                    &quot;label&quot; : tf.FixedLenFeature([], tf.float32),
+                    &quot;feature_ids&quot;: tf.VarLenFeature(tf.int64),
+                    &quot;feature_vals&quot;: tf.VarLenFeature(tf.float32)
+                })
+    batch_label = features[&#39;label&#39;]
+    batch_feature_ids = features[&#39;feature_ids&#39;]
+    batch_feature_vals = features[&#39;feature_vals&#39;]
+    return batch_label, batch_feature_ids, batch_feature_vals
+</code></pre>
+
+<p>个人读了一些解析tfrecord的几个格式的源码，现在还有点乱，大概现在貌似代码中有支持VarLenFeature, SparseFeature, FixedLenFeature, FixedLenSequenceFeature这几种，但是几个api的说明里面貌似对sparsefeature的支持有点磨砺两可，所以选择使用VarLenFeature上面的方式， 不知道这里SparseFeature是怎么玩的，有时间还得仔细看看。</p>
+
+<p>然后，简单写个读取的demo：</p>
+
+<pre><code class="language-text">import tensorflow as tf
+from libsvm_input_reader import LibSVMInputReader
+from sparse2train import Sparse2Train
+
+filename_queue = tf.train.string_input_producer([&quot;../../data/kdd2010/kdda_t.tfrecord&quot;], num_epochs=1, shuffle=True)
+lib_svm_input_reader = LibSVMInputReader(filename_queue, 2, 1000, 200)
+
+init_op = tf.group(tf.initialize_all_variables(),tf.initialize_local_variables())
+batch_label, batch_feature_ids, batch_feature_vals = lib_svm_input_reader.read()
+with tf.Session() as sess:
+    sess.run(init_op)
+    coord = tf.train.Coordinator()
+    threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+    try:
+        step = 0
+        while not coord.should_stop():
+            step += 1
+            print &quot;step: {0}&quot;.format(step)
+            batch_label_list, batch_feature_ids_list, batch_feature_vals_list = sess.run([batch_label, batch_feature_ids, batch_feature_vals])
+            print(batch_feature_ids_list)
+            # sparse_2_train_obj = Sparse2Train(batch_label_list, batch_feature_ids_list, batch_feature_vals_list)
+            # batch_label_array, batch_feature_ids_array, batch_feature_vals_array = sparse_2_train_obj.fit()
+            # print batch_feature_ids_array
+            # print batch_feature_vals_array
+    except tf.errors.OutOfRangeError:
+        print &quot;Done Training&quot;
+    finally:
+        coord.request_stop()
+        coord.join(threads)
+</code></pre>
+
+<p>大家可以动手跑跑看，仔细研究的话会发现一些比较有意思的东西，比如VarLenFeature出来的是一个SparseTensor，<img src="media/15430699092916/15430745826244.jpg" alt=""/><br/>
+这里我最开始是打算每次sess.run，然后转换为numpy.array, 然后再喂feed_dict到模型，但是觉得这样会很麻烦，速度会是瓶颈，如果能过直接使用这里的SparseTensor去做模型的计算，直接从tfrecord解析，应该会比较好，但是又会遇到另一个问题，后面再详细说明；这里简单提下，我这边就是直接拿到两个SparseTensor，直接去到模型，所以模型的设计会和常规的算法会有不同；</p>
+
+<h3 id="toc_5">Sparse Model的高效实现</h3>
+
+<pre><code class="language-text">import tensorflow as tf
+
+class SparseFactorizationMachine(object):
+    def __init__(self, model_name=&quot;sparse_fm&quot;):
+        self.model_name = model_name
+
+    def build(self, features, labels, mode, params):
+        print(&quot;export features {0}&quot;.format(features))
+        print(mode)
+        if mode == tf.estimator.ModeKeys.PREDICT:
+            sp_indexes = tf.SparseTensor(indices=features[&#39;DeserializeSparse:0&#39;],
+                         values=features[&#39;DeserializeSparse:1&#39;],
+                         dense_shape=features[&#39;DeserializeSparse:2&#39;])
+            sp_vals = tf.SparseTensor(indices=features[&#39;DeserializeSparse_1:0&#39;],
+                                      values=features[&#39;DeserializeSparse_1:1&#39;],
+                                      dense_shape=features[&#39;DeserializeSparse_1:2&#39;])
+        if mode == tf.estimator.ModeKeys.TRAIN or mode == tf.estimator.ModeKeys.EVAL:
+            sp_indexes = features[&#39;feature_ids&#39;]
+            sp_vals = features[&#39;feature_vals&#39;]
+            print(&quot;sp: {0}, {1}&quot;.format(sp_indexes, sp_vals))
+        batch_size = params[&quot;batch_size&quot;]
+        feature_max_num = params[&quot;feature_max_num&quot;]
+        optimizer_type = params[&quot;optimizer_type&quot;]
+        factor_vec_size = params[&quot;factor_size&quot;]
+
+        # first part
+        bias = tf.get_variable(name=&quot;b&quot;, shape=[1], initializer=tf.glorot_normal_initializer())
+        w_first_order = tf.get_variable(name=&#39;w_first_order&#39;, shape=[feature_max_num, 1], initializer=tf.glorot_normal_initializer())
+        linear_part = tf.nn.embedding_lookup_sparse(w_first_order, sp_indexes, sp_vals, combiner=&quot;sum&quot;) + bias
+        # second part
+        w_second_order = tf.get_variable(name=&#39;w_second_order&#39;, shape=[feature_max_num, factor_vec_size], initializer=tf.glorot_normal_initializer())
+
+        embedding = tf.nn.embedding_lookup_sparse(w_second_order, sp_indexes, sp_vals, combiner=&quot;sum&quot;)
+        embedding_square = tf.nn.embedding_lookup_sparse(tf.square(w_second_order), sp_indexes, tf.square(sp_vals), combiner=&quot;sum&quot;)
+        sum_square = tf.square(embedding)
+        # square_sum = 
+        second_part = 0.5*tf.reduce_sum(tf.subtract(sum_square, embedding_square), 1)
+        y_hat = linear_part + tf.expand_dims(second_part, -1)
+        # y_hat = linear_part
+        predictions = tf.sigmoid(y_hat)
+        print &quot;y_hat: {0}, second_part: {1}, linear_part: {2}&quot;.format(y_hat, second_part, linear_part)
+        pred = {&quot;prob&quot;: predictions}
+        export_outputs = {
+            tf.saved_model.signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY: tf.estimator.export.PredictOutput(predictions)
+        }
+        if mode == tf.estimator.ModeKeys.PREDICT:
+            return tf.estimator.EstimatorSpec(
+                mode=mode, 
+                predictions=predictions,
+                export_outputs=export_outputs)
+        loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=labels, logits=tf.squeeze(y_hat)))
+        if optimizer_type == &quot;sgd&quot;:
+            opt = tf.train.GradientDescentOptimizer(learning_rate=params[&#39;learning_rate&#39;])
+        elif optimizer_type == &quot;ftrl&quot;:
+            opt = tf.train.FtrlOptimizer(learning_rate=params[&#39;learning_rate&#39;],)
+        elif optimizer_type == &quot;adam&quot;:
+            opt = tf.train.AdamOptimizer(learning_rate=params[&#39;learning_rate&#39;])
+        elif optimizer_type == &quot;momentum&quot;:
+            opt = tf.train.MomentumOptimizer(learning_rate=params[&#39;learning_rate&#39;], momentum=params[&#39;momentum&#39;])
+        train_step = opt.minimize(loss,global_step=tf.train.get_global_step())
+        eval_metric_ops = {
+            &quot;auc&quot; : tf.metrics.auc(labels, predictions)
+        }
+
+        if mode == tf.estimator.ModeKeys.TRAIN:
+            return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions, loss=loss, train_op=train_step)
+        if mode == tf.estimator.ModeKeys.EVAL:
+            return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions, loss=loss, eval_metric_ops=eval_metric_ops)
+</code></pre>
+
+<p>这里讲个Factorization Machine的实现，会比Sparse Logistic Regression的实现要稍微复杂一点，首先，模型的算法实现，比较简单，随便搜下应该大概都知道Factorization Machine的算法原理，fm主要包括两个部分，一个是LogisticRegression的部分，包括bias和一阶特征，另外一部分是把每一维特征表示为一个指定大小的vector，去从样本中去学习对训练有效的交叉信息：</p>
+
+<pre><code class="language-text">bias = tf.get_variable(name=&quot;b&quot;, shape=[1], initializer=tf.glorot_normal_initializer())
+w_first_order = tf.get_variable(name=&#39;w_first_order&#39;, shape=[feature_max_num, 1], initializer=tf.glorot_normal_initializer())
+linear_part = tf.nn.embedding_lookup_sparse(w_first_order, sp_indexes, sp_vals, combiner=&quot;sum&quot;) + bias
+# second part
+w_second_order = tf.get_variable(name=&#39;w_second_order&#39;, shape=[feature_max_num, factor_vec_size], initializer=tf.glorot_normal_initializer())
+
+embedding = tf.nn.embedding_lookup_sparse(w_second_order, sp_indexes, sp_vals, combiner=&quot;sum&quot;)
+embedding_square = tf.nn.embedding_lookup_sparse(tf.square(w_second_order), sp_indexes, tf.square(sp_vals), combiner=&quot;sum&quot;)
+sum_square = tf.square(embedding)
+# square_sum = 
+second_part = 0.5*tf.reduce_sum(tf.subtract(sum_square, embedding_square), 1)
+y_hat = linear_part + tf.expand_dims(second_part, -1)
+# y_hat = linear_part
+predictions = tf.sigmoid(y_hat)
+</code></pre>
+
+<p>这里和普通的fm唯一不同的是，我使用tf.nn.embedding_lookup_sparse 来计算WX，在海量特征维度的前提下，做全部的WX相乘是耗时，且没有必要的，我们只需要取出其中有值的部分来计算即可，比如kdd2010，两千万维的特征，但是计算WX其实就会考验系统的瓶颈，但是如果经过一个简单的tf.nn.embedding_lookup_sparse来替代WX，就会先lookup feature_id，对应的embedding的表示，然后乘以相应的weight，最后在每一个样本上进行一个combiner(sum)的操作，其实就是等同于WX，<code>tf.nn.embedding_lookup_sparse(w_first_order, sp_indexes, sp_vals, combiner=&quot;sum&quot;)</code>, 而在系统方面，由于计算只与NNZ(非零数)有关， 性能则完全没有任何压力。二阶的部分可以降低时间复杂度，相信应该了解FM的都知道，和的平方减去平方的和：</p>
+
+<pre><code class="language-text">embedding_square = tf.nn.embedding_lookup_sparse(tf.square(w_second_order), sp_indexes, tf.square(sp_vals), combiner=&quot;sum&quot;)
+sum_square = tf.square(embedding)
+# square_sum = 
+second_part = 0.5*tf.reduce_sum(tf.subtract(sum_square, embedding_square), 1)
+</code></pre>
+
+<p>由上面的实现，我们只需要把特征的sp_indexes, sp_val传出来就可以了， 但是因为这两者都是SparseTensor，笔者开始想到的不是上述的实现，而是使用<code>tf.sparse.placeholder</code>， 然后喂一个feed_dict，对应SparseTensorValue就可以了，确实是可以的，模型训练没有问题，模型export出来也没有问题(其实是有问题的， 我这里重写了Estimator的<code>build_raw_serving_input_receiver_fn</code>使其支持SparseTensor)，但是在部署好TensorFlow Serving之后，我发现在客户端SparseTensorValue貌似不能组成一个TensorProto，<code>tf.make_tensor_proto</code>主要是把请求的值放进一个TensorProto，而TensorProto, <a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/framework/tensor.proto">https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/framework/tensor.proto</a>，貌似不能直接支持SparseTensorValue去放进TensorProto，所以就无法在部署好TensorFlow Serving后去请求（部署会在后文详细描述，这里我也想过能不能改他们的代码，但是貌似涉及太底层的东西，有点hold不住），但是也是有办法的，前面文章提到SparseTensor，在TensorFlow中是高阶的api，他其实就是由3个Tensor组成，是否可以把SparseTensor本身的3个Tensor暴露出来，然后请求的时候去组这三个Tensor就可以啦，所以只需要找到TFRecord接下出来的sp_indexes, sp_vals就可以了<br/>
+<img src="media/15430699092916/15431157444207.jpg" alt=""/><br/>
+从这里很容易看到sp_indexes, sp_vals的TensorName，然后用占位符替代，然后用这些去组成sp_indexes，sp_vals</p>
+
+<p><img src="media/15430699092916/15431159725571.jpg" alt=""/> <br/>
+<img src="media/15430699092916/15431160229213.jpg" alt=""/><br/>
+说明下，这里我使用的kdd2010的数据，特征维度是20216831，样本数量8407752,我是用我15年的macbook pro跑的， 使用的sgd， 收敛还是比较明显的， 大家有兴趣可以试试，按以往经验使用其他优化器如adam，ftrl会在这种特征规模比较大的条件下有比较好的提升，我这里就走通整个流程，另外机器也不忍心折腾；<br/>
+到了这里，就训练出来了一个可用的Sparse FM的模型，接下来要导出模型，这里的导出模型是导出一个暴露了placeholder的模型，可以在TensorFlow Serving被载入，被请求，不是单纯的ckpt；</p>
+
+<h3 id="toc_6">模型部署</h3>
+
+<pre><code class="language-text">feature_spec = {
+            &#39;DeserializeSparse:0&#39;: tf.placeholder(dtype=tf.int64, name=&#39;feature_ids/indices&#39;),
+            &#39;DeserializeSparse:1&#39;: tf.placeholder(dtype=tf.int64, name=&#39;feature_ids/values&#39;),
+            &#39;DeserializeSparse:2&#39;: tf.placeholder(dtype=tf.int64, name=&#39;feaurte_ids/shape&#39;),
+            &#39;DeserializeSparse_1:0&#39;: tf.placeholder(dtype=tf.int64, name=&#39;feature_vals/indices&#39;),
+            &#39;DeserializeSparse_1:1&#39;: tf.placeholder(dtype=tf.float32, name=&#39;feature_vals/values&#39;),
+            &#39;DeserializeSparse_1:2&#39;: tf.placeholder(dtype=tf.int64, name=&#39;feature_vals/shape&#39;)
+        }
+serving_input_receiver_fn = tf.estimator.export.build_raw_serving_input_receiver_fn(feature_spec, is_sparse=False)
+sparse_fm_model.export_savedmodel(servable_model_dir, serving_input_receiver_fn, as_text=True)
+</code></pre>
+
+<p>和前面构造模型的时候对应，只需要把DeserializeSparse的部分暴露出来即可<br/>
+<img src="media/15430699092916/15431172755613.jpg" alt=""/></p>
+
+<p>这里会以时间戳创建模型，保存成功后temp-1543117151会变为1543117151，接下来，就是要启动TensorFlow Serving载入模型：<code>docker run -p 8500:8500 --mount type=bind,source=/Users/burness/work/tencent/TFRecSYS/TFRecSYS/runner/save_model,target=/models/ -e MODEL_NAME=sparse_fm -t tensorflow/serving</code>，使用官方提供的docker镜像来部署环境很方便。<br/>
+<img src="media/15430699092916/15431177337381.jpg" alt=""/><br/>
+会先载入新的模型，然后unload旧模型，从命令行log信息可以看出gRPC接口为8500<br/>
+剩下的，就下一个client，去请求</p>
+
+<pre><code class="language-text">import grpc
+import sys
+sys.path.insert(0, &quot;./&quot;)
+from tensorflow_serving.apis import predict_pb2
+from tensorflow_serving.apis import prediction_service_pb2_grpc
+# from grpc.beta import implementations
+import tensorflow as tf
+from tensorflow.python.framework import dtypes
+import time
+import numpy as np
+from sklearn import metrics
+
+def get_sp_component(file_name):
+    with open(file_name, &quot;r&quot;) as fread:
+        for line in fread.readlines():
+            fea_ids = []
+            fea_vals = []
+            line_components = line.strip().split(&quot; &quot;)
+            label = float(line_components[0])
+            for part in line_components[1:]:
+                part_components = part.split(&quot;:&quot;)
+                fea_ids.append(int(part_components[0]))
+                fea_vals.append(float(part_components[1]))
+            yield (label, fea_ids, fea_vals)
+
+def batch2sparse_component(fea_ids, fea_vals):
+    feature_id_indices = []
+    feature_id_values = []
+    feature_vals_indices = []
+    feature_vals_values = []
+    for index, id in enumerate(fea_ids):
+        feature_id_values += id
+        for i in range(len(id)):
+            feature_id_indices.append([index, i])
+    for index, val in enumerate(fea_vals):
+        feature_vals_values +=val
+        for i in range(len(val)):
+            feature_vals_indices.append([index, i])
+    return np.array(feature_id_indices, dtype=np.int64), np.array(feature_id_values, dtype=np.int64), np.array(feature_vals_indices, dtype=np.int64), np.array(feature_vals_values, dtype=np.float32)    
+
+
+
+if __name__ == &#39;__main__&#39;:
+    start_time = time.time()
+    channel = grpc.insecure_channel(&quot;127.0.0.1:8500&quot;)
+    stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
+    request = predict_pb2.PredictRequest()
+    request.model_spec.name = &quot;sparse_fm&quot;
+    record_genertor = get_sp_component(&quot;../../data/kdd2010/kdda_t.libsvm&quot;)
+    batch_size = 1000
+
+    predictions = np.array([])
+    labels = []
+    while True:
+        try:
+            batch_label = []
+            batch_fea_ids = []
+            batch_fea_vals = []
+            max_fea_size = 0
+            for i in range(batch_size):
+                label, fea_ids, fea_vals = next(record_genertor)
+                # print label, fea_ids, fea_vals
+                batch_label.append(label)
+                batch_fea_ids.append(fea_ids)
+                batch_fea_vals.append(fea_vals)
+                if len(batch_fea_ids) &gt; max_fea_size:
+                    max_fea_size = len(batch_fea_ids)
+            shape = np.array([batch_size, max_fea_size],dtype=np.int64 )
+            batch_feature_id_indices, batch_feature_id_values,batch_feature_val_indices, batch_feature_val_values  = batch2sparse_component(batch_fea_ids, batch_fea_vals)
+            # print(batch_feature_val_indices)
+            request.inputs[&quot;DeserializeSparse:0&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(batch_feature_id_indices))
+            request.inputs[&quot;DeserializeSparse:1&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(batch_feature_id_values))
+            request.inputs[&quot;DeserializeSparse:2&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(shape))
+            request.inputs[&quot;DeserializeSparse_1:0&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(batch_feature_val_indices))
+            request.inputs[&quot;DeserializeSparse_1:1&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(batch_feature_val_values))
+            request.inputs[&quot;DeserializeSparse_1:2&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(shape))
+            response = stub.Predict(request, 10.0)
+            results = {}
+            for key in response.outputs:
+                tensor_proto = response.outputs[key]
+                nd_array = tf.contrib.util.make_ndarray(tensor_proto)
+                results[key] = nd_array
+            print(&quot;cost %ss to predict: &quot; % (time.time() - start_time))
+            # print(results[&quot;prob&quot;])
+            # print results
+
+            predictions = np.append(predictions, results[&#39;output&#39;])
+            labels += batch_label
+            # print(predictions)
+            print(len(labels), len(predictions))
+
+        except StopIteration:
+            break
+    fpr, tpr, thresholds = metrics.roc_curve(labels, predictions)
+    print(&quot;auc: {0}&quot;,format(metrics.auc(fpr, tpr)))
+    # 1:1 2:1 3:1 4:1 5:1 6:1 7:1 8:0.301 9:0.602 10:1 11:1 12:1 13:1 14:1 15:1 16:1 17:1 18:1 19:1 20:1 21:1 22:1
+    # id_indices = np.array([[0,0],[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8],[0,9],[0,10],[0,11],[0,12],[0,13],[0,14],[0,15],[0,16],[0,17],[0,18],[0,19],[0,20],[0,21]], dtype=np.int64)
+    # id_values = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22], dtype=np.int64)
+    # id_shape = np.array([1,22], dtype=np.int64)
+    # val_indices = np.array([[0,0],[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8],[0,9],[0,10],[0,11],[0,12],[0,13],[0,14],[0,15],[0,16],[0,17],[0,18],[0,19],[0,20],[0,21]], dtype=np.int64)
+    # val_values = np.array([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.301, 0.602, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], dtype=np.float32)
+    # val_shape = np.array([1,22], dtype=np.int64)
+
+    # request.inputs[&quot;DeserializeSparse:0&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(id_indices))
+    # request.inputs[&quot;DeserializeSparse:1&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(id_values))
+    # request.inputs[&quot;DeserializeSparse:2&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(id_shape))
+    # request.inputs[&quot;DeserializeSparse_1:0&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(val_indices))
+    # request.inputs[&quot;DeserializeSparse_1:1&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(val_values))
+    # request.inputs[&quot;DeserializeSparse_1:2&quot;].CopyFrom(tf.contrib.util.make_tensor_proto(val_shape))
+
+    # response = stub.Predict(request, 10.0)
+    # results = {}
+    # for key in response.outputs:
+    #     tensor_proto = response.outputs[key]
+    #     nd_array = tf.contrib.util.make_ndarray(tensor_proto)
+    #     results[key] = nd_array
+    # print(&quot;cost %ss to predict: &quot; % (time.time() - start_time))
+    # # print(results[&quot;pro&quot;])
+    # print(results[&quot;output&quot;])
+</code></pre>
+
+<p>开始用一个样本做测试打出pred的值，成功后，我将所有的测试样本去组batch去请求，然后计算下auc，对比下eval的时候的auc,差不多，那说明整体流程没啥问题，另外每1000个样本耗时大概270多ms，整体感觉还可以。<br/>
+<img src="media/15430699092916/15431184236033.jpg" alt=""/></p>
+
+<h3 id="toc_7">后续</h3>
+
+<p>基本到这里就差不多了，现在已经支持单个field的Logistic Regression和Factorization Machine，扩展性比较强，只需要重写算法的类，剩余的大部分都可以复用，接下来计划是支持multi-field的数据接入，会实现更高效的Sparse DeepFM, FNN, DIN, DIEN, 其实已经差不多了，现在正在弄可用性，希望能够通过配置文件直接串起整个流程。</p>
+
+    </div>
+    <footer class="post-footer clearfix">
+      <p class="post-categories">
+        <span>Categories:</span>
+        
+            <a href="TensorFlow.html">TensorFlow</span>, 
+           
+      </p>
+        
+    </footer>
+     <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div><!-- end comments wrap -->
+  </article>
+ </div><!-- end-->
+
+
+
+    <footer class="footer">
+            <div class="container">
+                <div class="site-footer-wrapper">
+                        <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                                                
+                </div>
+                <div class="site-menu-wrapper">
+                  &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="self" class="" href="index.html">Home</a>
+                    &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="_self" class="" href="archives.html">Archives</a>
+                    &nbsp;<span>|</span>&nbsp;
+                                             
+                </div>
+
+                <p class="footer-copyright">
+                        Copyright &copy; 2019
+                        Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+                        Theme used <a target="_blank" href="https://blog.timac.org">Timac</a>.
+                </p>
+            </div>
+        </footer>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+        
+      
+  
+    
+
+
+    </body>
+</html>

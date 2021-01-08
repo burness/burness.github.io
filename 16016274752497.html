@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      
+    Properties of Networks and Random Graph Model - 
+    
+    </title>
+    
+    
+    
+    <link href="atom.xml" rel="alternate" title="" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/style.css">
+    
+</head>
+  <body>
+
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                          <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                         
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+ 
+<div class="container">
+  <article class="post-container">
+    <header class="post-header">
+        <h1 class="post-title">Properties of Networks and Random Graph Model</h1>
+        <p class="post-date">
+                <span>Posted <time datetime="2020/10/02" itemprop="datePublished">2020/10/02</time></span>
+            </p>
+    </header>
+
+    <div class="post-content clearfix">
+<h2 id="toc_0">如何描述一个网络</h2>
+
+<h3 id="toc_1">Degree Distribution</h3>
+
+<p>P(k): 随机选择的节点， 度为k的的概率分布， 使用直方图来描述</p>
+
+<p><img src="media/16016274752497/16016288312820.jpg" alt=""/><br/>
+其中\(N_k\)表示度为k的节点数， 比如上图中，度为1的节点数有6， 所有节点数为10， 所以\(P(6)=0.6\)</p>
+
+<h3 id="toc_2">Path Length</h3>
+
+<p>Path: path是指每个节点连接下一个节点的序列，其中，一个path能够重复多次相同的边， 如下图： ACBDCDEG<br/>
+<img src="media/16016274752497/16016290595027.jpg" alt=""/></p>
+
+<p>Distance: 连接节点对最少数量的边，称为两个节点间的distance，如下图，其中\(h_{B,D}=2, h_{A,X}=\infty\)， 若图中两节点无连接，或中间连接断开，则distance为无穷，在有向图中，distance的计算应该考虑两个节点间的方向，如下图\(h_{B,C}=1, h{C,B}=2\)，不是对称的：<br/>
+<img src="media/16016274752497/16016293620828.jpg" alt=""/><br/>
+<img src="media/16016274752497/16016295608758.jpg" alt=""/></p>
+
+<p><strong>Diameter</strong>在graph中，所有节点对当中最长distance；<br/>
+<strong>Average path length</strong>针对graph来说， average path length计算公式如下：<br/>
+\[h_{average}=\frac{\sum_{i,j!=i h_{ij}}}{2E_{max}}\]<br/>
+其中\(h_{ij}\)是node i到node j的distance, \(E_{max}\)是指图最多可存在的边数：\(\frac{n(n-1)}{2}\)</p>
+
+<h3 id="toc_3">Cluster coefficient</h3>
+
+<p><strong>cluster coefficient</strong> 对于无向图，用来描述节点i与他的邻居的链接情况， 其中节点i的度为\(k_{i}\)，clustering coefficient计算公式如下：<br/>
+\[C_{i}=\frac{2e_{i}}{k_{i}(k_{i}-1)}\]<br/>
+如下图， 图的node i的cluster coefficient计算如下：\(C_{i}=\frac{2*6}{4*(4-1)}=1, C_{i}=\frac{(2*3)}{4*(4-1)}=0.5, C_{i}=\frac{2*0}{4*(4-1)}=0\)<br/>
+Average clustering coefficient: \(C=\frac{1}{N}\sum_{i}^{N}C_{i}\)<br/>
+<img src="media/16016274752497/16016303918942.jpg" alt=""/></p>
+
+<p><img src="media/16016274752497/16016307437464.jpg" alt=""/></p>
+
+<p>\(K_{A}=1, e_{A}=0, C_{A}=0\)<br/>
+\(k_{B}=2, e_{B}=1, C_{B}=1\)<br/>
+\(k_{C}=4, e_{C}=2, C_{C}=1/3\)<br/>
+\(k_{D}=4, e_{D}=2, C_{D}=1/3\)<br/>
+\(k_{E}=3, e_{E}=0, C_{E}=0\)<br/>
+\(k_{F}=1, e_{F}=0, C_{F}=0\)<br/>
+\(k_{G}=1, e_{G}=0, C_{G}=0\)<br/>
+\(k_{H}=2, e_{H}=1, C_{H}=1\)<br/>
+avg. clustering: C= (1+1/3+1/3+1)/8=1/3</p>
+
+<h3 id="toc_4">Connected components</h3>
+
+<p><strong>Connectivity</strong><br/>
+图当中最大的可连接的component：能够通过path链接的任意两个几点的最大的集合；<br/>
+如何找到图当中的connect components，从图中随机节点开始，按广度优先策略遍历，标记遍历过的节点，如果，所有的节点均被遍历，那么这个未connected component， 否则从未遍历的节点中随机开始，重复广度优先策略遍历；</p>
+
+<p><img src="media/16016274752497/16016314705304.jpg" alt=""/></p>
+
+<h2 id="toc_5">描述实际中的图：MSN Messenger</h2>
+
+<p>msn一个月的相关的数据，如下：<br/>
+<img src="media/16016274752497/16016320300517.jpg" alt=""/></p>
+
+<h3 id="toc_6">Degree Distribution</h3>
+
+<p><img src="media/16016274752497/16016372202411.jpg" alt=""/><br/>
+x坐标log之后：<br/>
+<img src="media/16016274752497/16016372583523.jpg" alt=""/><br/>
+可见大部分的节点degress在个位数。</p>
+
+<h3 id="toc_7">Clustering</h3>
+
+<p>将所有的节点的k与c绘制在如下图中，整个graph的avg culstering coefficient约为0.1140<br/>
+<img src="media/16016274752497/16016374053942.jpg" alt=""/></p>
+
+<h3 id="toc_8">Connected Components</h3>
+
+<p><img src="media/16016274752497/16016375024548.jpg" alt=""/></p>
+
+<h3 id="toc_9">Diameter</h3>
+
+<p>msn的graph中平均path length为6.6， 90% 的节点能够触及在8个链接后触及到另一节点；<br/>
+<img src="media/16016274752497/16016375894524.jpg" alt=""/></p>
+
+<h3 id="toc_10">图的核心属性如何使用？</h3>
+
+<p>这些graph的属性是意外的还是在我们本身预料之中？<br/>
+<img src="media/16016274752497/16016377096309.jpg" alt=""/></p>
+
+<p><strong>PPI Network</strong></p>
+
+<p><img src="media/16016274752497/16016378153380.jpg" alt=""/></p>
+
+<h2 id="toc_11">Random Graph Model</h2>
+
+<h3 id="toc_12">Simplest Model of Graph</h3>
+
+<p><strong>ER Random Graphs</strong><br/>
+两个变种：</p>
+
+<ol>
+<li>\(G_{np}\)： n个节点的无向图，其中每一条边是概率为p的独立同分布；</li>
+<li>\(G_{nm}\): n个节点的无向图，其中m个边均匀随机生成；</li>
+</ol>
+
+<p>需要说明的是，n, p 无法唯一地的决定graph，如下图，相同的n,p下， 我们有不同的图：<br/>
+<img src="media/16016274752497/16016380802516.jpg" alt=""/></p>
+
+<h4 id="toc_13">Degree Distribution of \(G_{np}\)</h4>
+
+<p>假定\(P{(k)}\)表示度为k在所有节点中的占比， 则<br/>
+\[P_{(k)}= C_{n-1}^{k} p^{k}(1-p)^{n-1-k}\]</p>
+
+<p>很明显的binomial distribution, 所以均值、方差为：</p>
+
+<p>\[k_mean = p(n-1)\]<br/>
+\[\sigma^2 = p(1-p)(n-1)\]</p>
+
+<p>标准差率为：\(\frac{\sigma}{k_mean} \approx \frac{1}{(n-1)^{0.5}}\)，当图无限大的时候，则标准差为0， 所有的节点都为\(k_mean\)。</p>
+
+<h4 id="toc_14">Clustering Coefficient of \(G_{np}\)</h4>
+
+<p>已知\(C_{i}=\frac{2e_{i}}{k_{i}(k_{i}-1)}\), 在\(G_{np}\)，边为概率为p的独立同步分， 其中\(E[e_{i}] = p\frac{k_{i}(k_{i}-1)}{2}\), 故\(E[C_i] = \frac{pk_i(k_i - 1)}{k_i(k_i -1)} = p = \frac{k_{avg}}{n-1} \approx \frac{k_{avg}}{n}\)</p>
+
+<p><strong>Expansion</strong></p>
+
+<p>定义\(\alpha\): 如果一个graph的任意的子集S,子集中边的条数大于alpha乘以子集或者graph去除子集之后的节点数量， Expansion通常用来衡量图的lu&#39;bang&#39;xing：<br/>
+\[\alpha = \mathop{\min}_{S \subseteqq}{\frac{\# edges\  leaving\ S} {min(|s|, |V \ S|)}}\]</p>
+
+<p><img src="media/16016274752497/16016422849257.jpg" alt=""/><br/>
+这张ppt没理解清楚，<br/>
+<img src="media/16016274752497/16016429720141.jpg" alt=""/><br/>
+在\(G_{np}\)中，n*p为常数，所以avg deg k也为常数：<br/>
+<img src="media/16016274752497/16016430308075.jpg" alt=""/></p>
+
+<h4 id="toc_15">Connected Components</h4>
+
+<p>\(G_{np}，其中n = 100000, k=p(n-1)=0.5...3\)，Largest CC中节点占图中所有节点的比例<br/>
+<img src="media/16016274752497/16016433773242.jpg" alt=""/></p>
+
+<h2 id="toc_16">Random Graph Model vs. MSN</h2>
+
+<p>在Random Graph Model 和实际的MNS的4个核心属性对比：<br/>
+<img src="media/16016274752497/16016435436504.jpg" alt=""/></p>
+
+<p>真实网络和Random Graph类似吗 ？</p>
+
+<ul>
+<li>Giant Connected component: yes</li>
+<li>Average path length: yes</li>
+<li>Clustering Coefficient: No</li>
+<li>Degree Distribution: No</li>
+</ul>
+
+<h2 id="toc_17">The Small-World Model--能同时保证high clustering且短path的图吗？</h2>
+
+<p><img src="media/16016274752497/16016440381977.jpg" alt=""/></p>
+
+<p>回顾下前面MSN network，clustering coef为0.11， 而\(G_{np}的clustering coef为8*10^{-8}\)。<br/>
+另外一个例子， IMDB数据集、Electrical power grid, Network of nerons中：<br/>
+<img src="media/16016274752497/16016442022709.jpg" alt=""/><br/>
+其中h：average shortest path length， C: avg clustering coefficient， random，是保证相同avg degree，相同节点下的图的情况。</p>
+
+<p><img src="media/16016274752497/16016445880044.jpg" alt=""/></p>
+
+<p>下图左边：高clustering coefficient： 朋友的朋友是我的朋友；</p>
+
+<p><img src="media/16016274752497/16016446507292.jpg" alt=""/></p>
+
+<p>Small-World同时保证high cluster and low diameter；<br/>
+如下图，从high clustering/high diameter, 到low clustering/low diameter， 增加随机性（p变大）: 即随机的将一条边的另一个端点连接到任意较远的节点上，这样可以保持high clustering，low diameter；<br/>
+<img src="media/16016274752497/16016448836939.jpg" alt=""/><br/>
+下图中的p区域保证保证high clustering 和low path length：<br/>
+<img src="media/16016274752497/16016449171942.jpg" alt=""/></p>
+
+<h2 id="toc_18">Kronecker Graph Model: Generating large realistic graphs</h2>
+
+<p>递归的graph的生成: Self-similarity</p>
+
+<p><img src="media/16016274752497/16016462617663.jpg" alt=""/></p>
+
+<p><strong>Kronecker Produce</strong>是一种生成self-similar矩阵的方法：<br/>
+<img src="media/16016274752497/16016463025641.jpg" alt=""/><br/>
+Kronecker Product 定义如下：<br/>
+<img src="media/16016274752497/16016463141556.jpg" alt=""/><br/>
+举个例子：</p>
+
+<p><img src="media/16016274752497/16016463666640.jpg" alt=""/></p>
+
+<ul>
+<li>构建一个\(N_1 * N_1\)的初始概率矩阵；</li>
+<li>计算k阶Kronecker 矩阵；</li>
+<li>遍历k阶矩阵，按\(p_{uv}\)构建edge(u, v)链接
+<img src="media/16016274752497/16016466109703.jpg" alt=""/>
+如上图最后， 需要模拟\(n^2\)次，耗时太高， 是否有更高效方法(利用其递归结构)？</li>
+</ul>
+
+<p><img src="media/16016274752497/16016470904240.jpg" alt=""/></p>
+
+<p>真实网络与Kronecker网络很相似， 右上角为其初始矩阵：</p>
+
+<p><img src="media/16016274752497/16016471370705.jpg" alt=""/></p>
+
+    </div>
+    <footer class="post-footer clearfix">
+      <p class="post-categories">
+        <span>Categories:</span>
+        
+            <a href="%E5%9B%BE%E8%AE%A1%E7%AE%97.html">图计算</span>, 
+           
+      </p>
+        
+    </footer>
+     <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div><!-- end comments wrap -->
+  </article>
+ </div><!-- end-->
+
+
+
+    <footer class="footer">
+            <div class="container">
+                <div class="site-footer-wrapper">
+                        <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                                                
+                </div>
+                <div class="site-menu-wrapper">
+                  &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="self" class="" href="index.html">Home</a>
+                    &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="_self" class="" href="archives.html">Archives</a>
+                    &nbsp;<span>|</span>&nbsp;
+                                             
+                </div>
+
+                <p class="footer-copyright">
+                        Copyright &copy; 2019
+                        Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+                        Theme used <a target="_blank" href="https://blog.timac.org">Timac</a>.
+                </p>
+            </div>
+        </footer>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      
+  
+    
+
+
+    </body>
+</html>

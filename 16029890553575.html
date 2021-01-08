@@ -1,0 +1,407 @@
+
+
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      
+    Spectral Clustering - 
+    
+    </title>
+    
+    
+    
+    <link href="atom.xml" rel="alternate" title="" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/style.css">
+    
+</head>
+  <body>
+
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                          <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                         
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+ 
+<div class="container">
+  <article class="post-container">
+    <header class="post-header">
+        <h1 class="post-title">Spectral Clustering</h1>
+        <p class="post-date">
+                <span>Posted <time datetime="2020/10/18" itemprop="datePublished">2020/10/18</time></span>
+            </p>
+    </header>
+
+    <div class="post-content clearfix">
+<ul>
+<li>
+<a href="#toc_0">Graph Partitioning</a>
+<ul>
+<li>
+<a href="#toc_1">Criterion</a>
+<ul>
+<li>
+<a href="#toc_2">Minimum-cut</a>
+</li>
+<li>
+<a href="#toc_3">Conductance</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_4">Spectral Graph Partitioning</a>
+<ul>
+<li>
+<a href="#toc_5">Matrix Representations</a>
+</li>
+<li>
+<a href="#toc_6">Find Optimal Cut</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_7">Spectral Clustering Algorithm</a>
+<ul>
+<li>
+<a href="#toc_8">基础方法</a>
+</li>
+<li>
+<a href="#toc_9">k-Way Spectral Clustering</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_10">Motif-Based SPectral Clustering</a>
+<ul>
+<li>
+<a href="#toc_11">Motif Conductance</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_12">Summary</a>
+</li>
+</ul>
+
+
+<h2 id="toc_0">Graph Partitioning</h2>
+
+<p>何谓graph partitioning, 如下图，给定无向图\(G(V,E)\)， 将这些节点分为两个组：</p>
+
+<p><img src="media/16029890553575/16029968236086.jpg" alt=""/></p>
+
+<p>逻辑很简单，但是难点在于：</p>
+
+<ol>
+<li>如何定义一个尺度，来保证图的切分是合理的：
+<ol>
+<li>组内成员连接尽可能多；</li>
+<li>组与组之间连接尽可能少；</li>
+</ol></li>
+<li>如何高效地识别这些分区；</li>
+</ol>
+
+<h3 id="toc_1">Criterion</h3>
+
+<p><strong>Cut(A,B):</strong> 如下图，图当中，两个点分别在两个分组的边的数量；</p>
+
+<p><img src="media/16029890553575/16030072315012.jpg" alt=""/></p>
+
+<h4 id="toc_2">Minimum-cut</h4>
+
+<p>最小化图分组间的连接（如果有权重，则考虑权重）：<br/>
+\[arg min_{A, B}\ Cut(A,B)\]<br/>
+这样会存问题：</p>
+
+<ul>
+<li>仅仅考虑图当中分组的外部连接；</li>
+<li>未考虑图中分组的内部连接；<br/>
+因此，在下面图中，会出现，假如是minimum cut不是optimal cut
+<img src="media/16029890553575/16030073776880.jpg" alt=""/></li>
+</ul>
+
+<h4 id="toc_3">Conductance</h4>
+
+<p>与Minimum-cut逻辑不一样， Conductance不仅仅考虑分组间的连接， 也考虑了分割组内的“体积块”， 保证分割后得到的块更均衡，Conductance指标如下：</p>
+
+<p>\[  \phi(A, B)=\frac{cut(A,B)}{min(vol(A), vol(B))}\]<br/>
+其中\(vol(A)\)指分组块A内节点所有的权重度之和；<br/>
+但是，得到最好的Conductance是一个np难题。</p>
+
+<h2 id="toc_4">Spectral Graph Partitioning</h2>
+
+<p>假定A为无连接图G的链接矩阵表示，如(i,j)中存在边，则\(A_{ij}=1\)，否则为0；<br/>
+假定x是维度为n的向量\((x_1, ..., x_n)\)，我们认为他是图当中每个节点的一种标签；<br/>
+那么\(A*x\)的意义是， 如下图， \(y_i\)表示i的邻居节点与对应标签和：<br/>
+<img src="media/16029890553575/16030084889666.jpg" alt=""/></p>
+
+<p>令\(Ax=\lambda x\)，可以得到特征值：\(\lambda_i\), 和对应的特征向量\(x_i\)。对于图G， spectral(谱)定义为对应特征值\({\lambda_1, \lambda_2, ..., \lambda_n}\)，其\(\lambda_1 \leq \lambda_2 \leq ... \leq \lambda_n\) 对应的特征向量组\({x_i, x_2, ..., x_n}\)；</p>
+
+<p>** d-Regular Graph 举例 **</p>
+
+<p>假定图当中每个节点的度均为\(d\)，且G是连通的，即称为\(d-Regular Graph\)。<br/>
+假定\(x = (1,1,...,1)\)，那么\(Ax = (d, d, ..., d) = \lambda x\)， 故会有对应的特征对：<br/>
+\[x=(1,1,...,1), \lambda =d\]<br/>
+且d是A最大的特征值（证明课程未讲）</p>
+
+<p><strong>d-Regular Graph on 2 Components</strong></p>
+
+<p>假定G有两个部分， 每个部分均为d-Regular Graph，<br/>
+那么必然存在：</p>
+
+<p>\(x^{&#39;}=(1,...,1,0,...,0)^T\)， \(A x^{&#39;}=(d,...,d,0,...,0)^T\) <br/>
+\(x^{&#39;&#39;}=(0,...,0,1,...,1)^T\)， \(A x^{&#39;}=(0,...,0,d,...,d)^T\)</p>
+
+<p>所以必然存在两个特征值\(\lambda_{n} = \lambda_{n-1}\)， 推广起来，如果图G中两个部分互相连通，如下图， 则最大的特征值很近似：<br/>
+<img src="media/16029890553575/16030100066742.jpg" alt=""/></p>
+
+<p>推广， 这里有点没有太理解：<br/>
+<img src="media/16029890553575/16030113720635.jpg" alt=""/></p>
+
+<h3 id="toc_5">Matrix Representations</h3>
+
+<p><strong>邻接矩阵A</strong></p>
+
+<ul>
+<li>对称矩阵；</li>
+<li>n个实数特征值；</li>
+<li>特征向量均为实数向量且正交:
+<img src="media/16029890553575/16030114397493.jpg" alt=""/></li>
+</ul>
+
+<p><strong>度矩阵</strong></p>
+
+<ul>
+<li>对角矩阵；</li>
+<li>\(D=[d_{ii}]\), \(d_{ii}\) 表示节点i的度；
+<img src="media/16029890553575/16030115840965.jpg" alt=""/></li>
+</ul>
+
+<p><strong>Laplacian matrix</strong><br/>
+<img src="media/16029890553575/16030117088486.jpg" alt=""/></p>
+
+<p>Laplacian matrix 有以下特点：</p>
+
+<ul>
+<li>令x=(1,...,1)则\(L*x=0\)， 故\(\lambda=\lambda_{1}=0\)；</li>
+<li>L的特征值均为非负实数；</li>
+<li>L的特征向量均为实数向量，且正交；</li>
+<li>对于所有x，\(x^{T}Lx=\sum_{ij} L_{ij}x_{i}x_{j} \geq 0\)；</li>
+<li>L能够表示为\(L = N^{T} N\)</li>
+</ul>
+
+<h3 id="toc_6">Find Optimal Cut</h3>
+
+<p>分组表示(A,B)为一个向量，其中<br/>
+<img src="media/16029890553575/16030132613466.jpg" alt=""/><br/>
+问题转换为寻找最小化各部分间连接：<br/>
+<img src="media/16029890553575/16030135083034.jpg" alt=""/></p>
+
+<p>相关证明间slide，这里老师没有做过多解读；</p>
+
+<h2 id="toc_7">Spectral Clustering Algorithm</h2>
+
+<h3 id="toc_8">基础方法</h3>
+
+<p>如下图：主要包括三个步骤：</p>
+
+<ul>
+<li>预处理：构造图的表示， 包括Laplacian Matrix；</li>
+<li>矩阵分解：
+<ul>
+<li>计算Laplacian Matrix的所有的特征值与特征向量；</li>
+<li>将节点使用特征向量表示（对应\(\lambda_2\)的特征向量\(x_2\)）；
+<img src="media/16029890553575/16030136483959.jpg" alt=""/></li>
+</ul></li>
+<li>聚类， 将节点的特征表示，排序， 按大于0与小于来进行拆分：
+<img src="media/16029890553575/16030139525112.jpg" alt=""/></li>
+</ul>
+
+<p>以下是多个实例， 看起来使用\(\lambda_{2}\)对应的特征向量\(x_2\)来切分是比较合适的：</p>
+
+<p><img src="media/16029890553575/16030141846384.jpg" alt=""/><br/>
+<img src="media/16029890553575/16030141957860.jpg" alt=""/></p>
+
+<h3 id="toc_9">k-Way Spectral Clustering</h3>
+
+<p>如何将图切分为k个聚类呢？</p>
+
+<ul>
+<li>递归利用二分算法，将图进行划分。但是递归方法效率比较低，且比较不稳定；</li>
+<li>使用降维方法，将节点表示为低维度的向量表示，然后利用k-mean类似的方法对节点进行聚类；</li>
+</ul>
+
+<p>那么如何选择合适的k呢，如下图，计算连续的特征值之间的差值，选择差异最大的即为应该选择的k？<br/>
+<img src="media/16029890553575/16030144584423.jpg" alt=""/></p>
+
+<h2 id="toc_10">Motif-Based SPectral Clustering</h2>
+
+<p>是否能够通过专有的pattern 来进行聚类呢？上一篇文章有提到motif， 如下图：<br/>
+<img src="media/16029890553575/16030146086801.jpg" alt=""/><br/>
+给定motif，是否能够得到相应地聚类结果：</p>
+
+<p><img src="media/16029890553575/16030146698741.jpg" alt=""/></p>
+
+<p>答案当然是可以的， 而且也是复用前面的逻辑</p>
+
+<h3 id="toc_11">Motif Conductance</h3>
+
+<p>和上文中， 按边来切分逻辑不通， conductance指标，应该表征为motif的相关指标，如下：<br/>
+<img src="media/16029890553575/16030147436743.jpg" alt=""/><br/>
+这里给出一个计算的例子， 如下图， 该出模式分子为切分经过的该模式数量， 分母为该模式覆盖的所有节点数量：<br/>
+<img src="media/16029890553575/16030149022677.jpg" alt="" style="width:412px;"/></p>
+
+<p>所以motif的谱聚类就变成了给定图G与Motif结构来找到\(\phi_{M}(S)最小的\)， 很不幸， 找到最小化motif conductance也是一个np问题；<br/>
+同样地，也专门提出了解决motif 谱聚类的方法：</p>
+
+<ol>
+<li>给定图G和motif M；</li>
+<li>按M和给定的G，生成新的权重图\(W_{(M)}\);</li>
+<li>在新的图上应用spectral clustering方法；</li>
+<li>输出对应的类簇；</li>
+</ol>
+
+<p>大致过程如下图所示：</p>
+
+<p><img src="media/16029890553575/16030170812738.jpg" alt=""/><br/>
+具体过程如下：</p>
+
+<ol>
+<li><p>给定图G与motif M， 计算权重图\(W^(M)\)：<br/>
+<img src="media/16029890553575/16030175212616.jpg" alt=""/></p></li>
+<li><p>应用谱聚类， 计算其Laplacian Matrix的特征值与特征向量，得到第二小的特征向量，：<br/>
+<img src="media/16029890553575/16030175521379.jpg" alt=""/></p></li>
+<li><p>按升序对第二小特征值的对应的特征向量进行排序（对应的节点ID需要保存以计算motif conductance）， 以\(S_r = {x_1, ...,x_r}\)计算motif conductance值，选择最小地的值即为划分点， 如下图，1,2,3,4,5为一个类：<br/>
+<img src="media/16029890553575/16030177764796.jpg" alt=""/></p></li>
+</ol>
+
+<h2 id="toc_12">Summary</h2>
+
+<p>本章我们学习了谱聚类相关的工作， 首先，讲了关于表征切分图的指标cut(A,B)以及conductance，如何切分图以及为什么切分图是一个np难题，然后提出了利用谱聚类的方法来解决该问题，从而学习到了degree matrix, Laplacian matrix等概念； 而后提出是否有按motif来进行图聚类的方法， 并基于谱聚类的方法来解决来转换原图为带权重的图来解决；</p>
+
+    </div>
+    <footer class="post-footer clearfix">
+      <p class="post-categories">
+        <span>Categories:</span>
+        
+            <a href="%E5%9B%BE%E8%AE%A1%E7%AE%97.html">图计算</span>, 
+           
+      </p>
+        
+    </footer>
+     <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div><!-- end comments wrap -->
+  </article>
+ </div><!-- end-->
+
+
+
+    <footer class="footer">
+            <div class="container">
+                <div class="site-footer-wrapper">
+                        <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                                                
+                </div>
+                <div class="site-menu-wrapper">
+                  &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="self" class="" href="index.html">Home</a>
+                    &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="_self" class="" href="archives.html">Archives</a>
+                    &nbsp;<span>|</span>&nbsp;
+                                             
+                </div>
+
+                <p class="footer-copyright">
+                        Copyright &copy; 2019
+                        Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+                        Theme used <a target="_blank" href="https://blog.timac.org">Timac</a>.
+                </p>
+            </div>
+        </footer>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      
+  
+    
+
+
+    </body>
+</html>

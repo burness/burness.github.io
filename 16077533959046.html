@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      
+    Graph Neural Networks - 
+    
+    </title>
+    
+    
+    
+    <link href="atom.xml" rel="alternate" title="" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/style.css">
+    
+</head>
+  <body>
+
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                          <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                         
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+ 
+<div class="container">
+  <article class="post-container">
+    <header class="post-header">
+        <h1 class="post-title">Graph Neural Networks</h1>
+        <p class="post-date">
+                <span>Posted <time datetime="2020/12/12" itemprop="datePublished">2020/12/12</time></span>
+            </p>
+    </header>
+
+    <div class="post-content clearfix">
+<p><img src="media/16072205939601/16077444867227.jpg" alt=""/></p>
+
+<p>经典的机器学习框架主要支持包括Images和Text/Speech 这两种数据，主要设计用来解决sequence、grids问题， 而Graph 结构相对较为复杂：<br/>
+<img src="media/16072205939601/16077446484476.jpg" alt=""/></p>
+
+<ul>
+<li>无法产生特定顺序的节点序列，因而很难转换为普通序列问题；</li>
+<li>图结构频繁变化，且通常需要建模多模态特征；</li>
+</ul>
+
+<h2 id="toc_0">Basics of deep learning for graphs</h2>
+
+<p>假定存在图G，其中V表示节点集合，A是邻接矩阵，\(X \in R^{m*|V|}\)是节点的特征矩阵（a matrix of node features）。这里的节点特征，根据不同的网络有不同的定义——如在社交网络里面，节点特征就包括用户资料、用户年龄等；在生物网络里面，节点的特征就包括基因表达、基因序列等；如果节点没有特征，就可以用one-hot编码表示或者常数向量 1: [ 1 , 1 , … , 1 ] [1, 1, …, 1][1,1,…,1]来表示节点的特征。</p>
+
+<h3 id="toc_1">Local Network neighborhoods</h3>
+
+<pre><code class="language-text">节点的邻居定义计算图， 能够有效地建模信息的传播；
+</code></pre>
+
+<p><img src="media/16072205939601/16077467780136.jpg" alt=""/></p>
+
+<p>如上图，根据节点邻居得到计算图， 然后根据计算图生成节点的向量表示，如下图，A的节点表示由其邻居节点{B,C,D}，而这些节点又由其邻居节点决定，形成如下图的计算图，其中方形框即为其聚合邻居节点的策略，可采用average操作：<br/>
+<img src="media/16072205939601/16077469131380.jpg" alt=""/></p>
+
+<p>由此，可将图中任意节点，根据其邻居节点，生成对应的计算图。</p>
+
+<h3 id="toc_2">Stacking multiple layers</h3>
+
+<p>上一小节示意图中，使用节点的最高至二阶邻居点，即邻居的邻居来生成某节点的计算图，也可以使用任意深度的模型来表示，即图神经网络中层的概念：</p>
+
+<ul>
+<li>任意节点在每一层均有对应的向量表示；</li>
+<li>layer-0的向量表示即模型的输入特征\(x_{u}\);</li>
+<li>layer-k的向量表示，即节点经过k层邻居之后的向量表示；<br/>
+因而，Graph Neural Network能够通过叠加layer建模更高阶信息。</li>
+</ul>
+
+<p>Graph Neural Network整体架构到这里其实基本上就讲完了，而不同的上述各种图中的方形框内部的计算逻辑。</p>
+
+<p><img src="media/16072205939601/16077481762719.jpg" alt=""/></p>
+
+<p>一个有效的方法即GCN的思路是， 在入口对接收到的message平均化， 多阶的信息由邻居的邻居的信息传播来进行建模， 和常见的深度学习模型没啥差别：</p>
+
+<p><img src="media/16072205939601/16077482635491.jpg" alt=""/></p>
+
+<h3 id="toc_3">模型训练</h3>
+
+<p>模型训练基本方式和常规的深度学习方式基本一致， 构建神经网络结构，通过构造loss函数，使用梯度下降方法，对模型参数进行更新，以最小化loss函数值：<br/>
+<img src="media/16072205939601/16077483702242.jpg" alt=""/></p>
+
+<h4 id="toc_4">非监督方式</h4>
+
+<p>基于图神经网络的非监督方式相对于传统的深度学习方式更加流行，其通常利用graph结构信息（其实也可以拼接slide info，slide未提），保证在graph中有相似的节点，有相似的特征表示。常见的模型包括：random walk系列（node2vec， DeepWalk， Struc2vec）， Graph Factorization， Node Proximity in the graph</p>
+
+<h4 id="toc_5">有监督方式</h4>
+
+<p>有监督方式的loss函数，根据不同任务类型来定义，如在常见的节点分类任务，如互联网中判断某节点是否为薅羊毛党，其为二元分类问题，通常采用交叉熵来表征其loss函数：<br/>
+<img src="media/16072205939601/16077487568893.jpg" alt=""/></p>
+
+<h4 id="toc_6">模型设计回顾</h4>
+
+<p><strong>定义邻居聚合函数与loss函数:</strong><br/>
+<img src="media/16072205939601/16077488653617.jpg" alt=""/><br/>
+<strong>按邻居节点生成批计算图</strong><br/>
+<img src="media/16072205939601/16077489286319.jpg" alt=""/><br/>
+<strong>生成图节点的向量表示</strong><br/>
+<img src="media/16072205939601/16077489762539.jpg" alt=""/></p>
+
+<p><img src="media/16072205939601/16077490853979.jpg" alt=""/><br/>
+对于计算图中，同一layer中的节点采用共享的参数表示，其参数彼此共享，且针对新图或者图中的新出现节点，均同样适用。</p>
+
+<h2 id="toc_7">Graph Convolutional Networks and GraphSAGE</h2>
+
+<h3 id="toc_8">基本介绍</h3>
+
+<p>如前文所述，在邻居节点聚合操作时，我们采用average操作，那么是否有更多通用的方式呢？GraphSAGE的思路是采用一个通用的aggregation函数来表示方形框的计算，并将其与本身的向量表示拼接起来，aggregation函数要保证可微分。</p>
+
+<p><img src="media/16072205939601/16077501660049.jpg" alt=""/></p>
+
+<p>常见的Aggregation如下：</p>
+
+<ul>
+<li><p>Mean： <img src="media/16072205939601/16077502322567.jpg" alt=""/></p></li>
+<li><p>Pool: <img src="media/16072205939601/16077502450481.jpg" alt=""/></p></li>
+<li><p>LSTM: <img src="media/16072205939601/16077502557065.jpg" alt=""/></p></li>
+</ul>
+
+<h3 id="toc_9">回顾</h3>
+
+<p>如下图， 图神经网络通过建模邻居节点的方式来解决图节点向量化的难题，通过多层高阶graph layer来聚合不同阶邻居的信息，并构建Graph计算图，来训练得到节点向量化表示，其中GCN为最基础方式，其聚合函数采取平均策略，而GraphSAGE设计通用的邻居聚合函数，如mean、pool、LSTM等等。<br/>
+<img src="media/16072205939601/16077504561113.jpg" alt=""/><br/>
+关于GNN的一些论文：</p>
+
+<pre><code class="language-text">Tutorials and overviews:
+§ Relational inductive biases and graph networks (Battaglia et al., 2018)
+§ Representation learning on graphs: Methods and applications (Hamilton et al., 2017)
+Attention-based neighborhood aggregation:
+§ Graph attention networks (Hoshen, 2017; Velickovic et al., 2018; Liu et al., 2018)
+Embedding entire graphs:
+§ Graph neural nets with edge embeddings (Battaglia et al., 2016; Gilmer et. al., 2017)
+§ Embedding entire graphs (Duvenaud et al., 2015; Dai et al., 2016; Li et al., 2018) and graph pooling
+(Ying et al., 2018, Zhang et al., 2018)
+§ Graph generation and relational inference (You et al., 2018; Kipf et al., 2018)
+§ How powerful are graph neural networks(Xu et al., 2017)
+Embedding nodes:
+§ Varying neighborhood: Jumping knowledge networks (Xu et al., 2018), GeniePath (Liu et al., 2018) § Position-aware GNN (You et al. 2019)
+Spectral approaches to graph neural networks:
+§ Spectral graph CNN &amp; ChebNet (Bruna et al., 2015; Defferrard et al., 2016) § Geometric deep learning (Bronstein et al., 2017; Monti et al., 2017)
+Other GNN techniques:
+§ Pre-training Graph Neural Networks (Hu et al., 2019)
+§ GNNExplainer: Generating Explanations for Graph Neural Networks (Ying et al., 2019)
+</code></pre>
+
+<h2 id="toc_10">Graph Attention Networks</h2>
+
+<p>GAT顾名思义，需要考虑邻居节点中，对最终结果的不同的影响，因而引入attention机制，attention在经典的深度学习网络中十分常见，如transformer的self-attention，</p>
+
+<h3 id="toc_11">Attention Mechanism</h3>
+
+<p>如下图， \(e_{uv}\)可以通过两个节点之间的信息流得到, \(e_{vu}\)表示节点u的信息对节点v的重要性, 使用softmax进行归一化，以便在不同的节点间存在可比性，然后集成在模型聚合函数中来建模不同节点对当前节点信息的重要性。<br/>
+<img src="media/16072205939601/16077513339656.jpg" alt=""/><br/>
+其他另外过程和原先GCN、graphSAGE没什么差别，除了attention信息也会参与训练。</p>
+
+    </div>
+    <footer class="post-footer clearfix">
+      <p class="post-categories">
+        <span>Categories:</span>
+        
+            <a href="%E5%9B%BE%E8%AE%A1%E7%AE%97.html">图计算</span>, 
+           
+      </p>
+        
+    </footer>
+     <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div><!-- end comments wrap -->
+  </article>
+ </div><!-- end-->
+
+
+
+    <footer class="footer">
+            <div class="container">
+                <div class="site-footer-wrapper">
+                        <a class="button-square" href="index.html">
+<svg class="svg-inline--fa fa-home fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"></path></svg>
+                            </a>
+                        
+                         
+                        
+                        
+                        
+                        
+                      
+                      <a class="button-square" href="atom.xml" target="_blank" title="RSS">
+                              <svg class="svg-inline--fa fa-rss fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path></svg><!-- <i class="fas fa-rss fa-lg"></i> -->
+                      </a>
+
+              
+                       
+                                                
+                </div>
+                <div class="site-menu-wrapper">
+                  &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="self" class="" href="index.html">Home</a>
+                    &nbsp;<span>|</span>&nbsp;
+                  
+                    <a target="_self" class="" href="archives.html">Archives</a>
+                    &nbsp;<span>|</span>&nbsp;
+                                             
+                </div>
+
+                <p class="footer-copyright">
+                        Copyright &copy; 2019
+                        Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+                        Theme used <a target="_blank" href="https://blog.timac.org">Timac</a>.
+                </p>
+            </div>
+        </footer>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+        
+      
+  
+    
+
+
+    </body>
+</html>
