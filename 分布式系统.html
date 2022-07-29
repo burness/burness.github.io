@@ -1,0 +1,933 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  分布式系统 - 小石头的码疯窝
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="小石头的码疯窝" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+ 
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site: ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 小石头的码疯窝</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+        
+        <li><a target="self" href="index.html">Home</a></li>
+        
+        <li><a target="_self" href="archives.html">Archives</a></li>
+        
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F.html">推荐系统</a></li>
+        
+            <li><a href="TensorFlow.html">TensorFlow</a></li>
+        
+            <li><a href="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0.html">机器学习平台</a></li>
+        
+            <li><a href="%E5%9B%BE%E8%AE%A1%E7%AE%97.html">图计算</a></li>
+        
+            <li><a href="pytorch.html">pytorch</a></li>
+        
+            <li><a href="%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F.html">分布式系统</a></li>
+        
+            <li><a href="mlops.html">mlops</a></li>
+        
+            <li><a href="paddle.html">paddle</a></li>
+        
+            <li><a href="%E5%8F%82%E6%95%B0%E6%9C%8D%E5%8A%A1%E5%99%A8.html">参数服务器</a></li>
+        
+            <li><a href="GAN.html">GAN</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="15860748439491.html">
+                
+                  <h1>分布式一致性</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2><a id="%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B0%86%E5%86%9B%E9%97%AE%E9%A2%98" class="anchor" aria-hidden="true" href="#%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B0%86%E5%86%9B%E9%97%AE%E9%A2%98"><span class="octicon octicon-link"></span></a>拜占庭将军问题</h2>
+<p>拜占庭位于如今的土耳其的伊斯坦布尔，是东罗马帝国的首都。由于当时拜占庭罗马帝国国土辽阔，为了防御目的，因此每个军队都分隔很远，将军与将军之间只能靠信差传消息。在战争的时候，拜占庭军队内所有将军必需达成 一致的共识，决定是否有赢的机会才去攻打敌人的阵营。但是，在军队内有可能存有叛徒和敌军的间谍，左右将军们的决定又扰乱整体军队的秩序，在进行共识时，结果并不代表大多数人的意见。这时候，在已知有成员不可靠的情况下，其余忠诚的将军在不受叛徒或间谍的影响下如何达成一致的协议，拜占庭问题就此形成。拜占庭假设是对现实世界的模型化，由于硬件错误、网络拥塞或断开以及遭到恶意攻击，计算机和网络可能出现不可预料的行为。</p>
+<p>疑问：</p>
+<ol>
+<li>类似拜占庭将军这样的分布式一致性问题是否有解？</li>
+<li>如果有解的话需要满足什么样的条件？</li>
+<li>在特定前提条件的基础上，提出一种解法。</li>
+</ol>
+<h2><a id="raft%E5%8D%8F%E8%AE%AE%E7%9A%84%E6%98%93%E7%90%86%E8%A7%A3%E6%80%A7%E6%8F%8F%E8%BF%B0" class="anchor" aria-hidden="true" href="#raft%E5%8D%8F%E8%AE%AE%E7%9A%84%E6%98%93%E7%90%86%E8%A7%A3%E6%80%A7%E6%8F%8F%E8%BF%B0"><span class="octicon octicon-link"></span></a>Raft 协议的易理解性描述</h2>
+<p>由Raft协议组织的集群中有三类角色：</p>
+<ol>
+<li>Leader;</li>
+<li>Follower;</li>
+<li>Candidate;</li>
+</ol>
+<p><img src="media/15860748439491/15860783019640.jpg" alt="" /></p>
+<p><img src="media/15860748439491/15860783230294.jpg" alt="" /><br />
+选出 Leader 后，Leader 通过定期向所有 Follower 发送心跳信息维持其统治。若 Follower 一段时间未收到 Leader 的心跳则认为 Leader 可能已经挂了再次发起选主过程。</p>
+<p>** Leader 节点对一致性的影响 **</p>
+<p><img src="media/15860748439491/15860786860537.jpg" alt="" /></p>
+<p>主节点可能在任意阶段挂掉， 如何保证数据一致性：</p>
+<ol>
+<li>数据到达Leader节点前<br />
+<img src="media/15860748439491/15860788704037.jpg" alt="" /></li>
+<li>数据到达 Leader 节点，但未复制到 Follower 节点<br />
+这个阶段 Leader 挂掉，数据属于未提交状态，Client 不会收到 Ack 会认为超时失败可安全发起重试。Follower 节点上没有该数据，重新选主后 Client 重试重新提交可成功。原来的 Leader 节点恢复后作为 Follower 加入集群重新从当前任期的新 Leader 处同步数据，强制保持和 Leader 数据一致。<br />
+<img src="media/15860748439491/15860789582200.jpg" alt="" /></li>
+<li>数据到达 Leader 节点，成功复制到 Follower 所有节点，但还未向 Leader 响应接收： 这个阶段 Leader 挂掉，虽然数据在 Follower 节点处于未提交状态（Uncommitted）但保持一致，重新选出 Leader 后可完成数据提交，此时 Client 由于不知到底提交成功没有，可重试提交。针对这种情况 Raft 要求 RPC 请求实现幂等性，也就是要实现内部去重机制。<br />
+<img src="media/15860748439491/15860790330442.jpg" alt="" /></li>
+<li>数据到达 Leader 节点，成功复制到 Follower 部分节点，但还未向 Leader 响应接收<br />
+这个阶段 Leader 挂掉，数据在 Follower 节点处于未提交状态（Uncommitted）且不一致，Raft 协议要求投票只能投给拥有最新数据的节点。所以拥有最新数据的节点会被选为 Leader 再强制同步数据到 Follower，数据不会丢失并最终一致。</li>
+</ol>
+<p><img src="media/15860748439491/15860791625345.jpg" alt="" /><br />
+5. 数据到达 Leader 节点，成功复制到 Follower 所有或多数节点，数据在 Leader 处于已提交状态，但在 Follower 处于未提交状态<br />
+这个阶段 Leader 挂掉，重新选出新 Leader 后的处理流程和阶段 3 一样。<br />
+<img src="media/15860748439491/15860792399442.jpg" alt="" /><br />
+6. 数据到达 Leader 节点，成功复制到 Follower 所有或多数节点，数据在所有节点都处于已提交状态，但还未响应 Client<br />
+这个阶段 Leader 挂掉，Cluster 内部数据其实已经是一致的，Client 重复重试基于幂等策略对一致性无影响。<br />
+<img src="media/15860748439491/15860792720197.jpg" alt="" /></p>
+<ol start="7">
+<li>网络分区导致的脑裂情况，出现双 Leader</li>
+</ol>
+<p>网络分区将原先的 Leader 节点和 Follower 节点分隔开，Follower 收不到 Leader 的心跳将发起选举产生新的 Leader。这时就产生了双 Leader，原先的 Leader 独自在一个区，向它提交数据不可能复制到多数节点所以永远提交不成功。向新的 Leader 提交数据可以提交成功，网络恢复后旧的 Leader 发现集群中有更新任期（Term）的新 Leader 则自动降级为 Follower 并从新 Leader 处同步数据达成集群数据一致。<br />
+<img src="media/15860748439491/15860796631447.jpg" alt="" /></p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2020/04/05</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F.html'>分布式系统</a></span>
+          				   
+                    
+
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15854050053037.html">
+                
+                  <h1>raft 参考文章</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>分布式系统中，网络不可靠，主机的差异性（包块性能、时钟），主机的不可靠等特性，从而产生了分布式系统的一致性问题，我们要保障分布式中的主机以同样的顺序来执行指令，从而产生一致性的结果，使得整个分布式系统像一台主机。</p>
+<p>一致性问题<br />
+分布式系统产生一致性问题的原因可总结如下：</p>
+<p>网络不可靠<br />
+主机不可靠<br />
+主机之间的差异性（性能、时钟等）<br />
+首先，网络可能导致我们发送的数据或者指令以乱序的方式到达，也可能会丢失数据，其次主机时不可靠的，可能会出现宕机，重启等，主机之间的差异性，包括主机的性能和时钟，这些都会导致分布式系统难于实现一致性，FLP不可能理论指出无法彻底解决一致性问题，在CAP中我们只能选择两项，大多数的分布式系统都选择了最终一致性，即若一致性来保证可用性和分区容错性。<br />
+在实际的生产环境中，一致性算法需要具备以下属性：</p>
+<p>安全性：即不管怎样都不能返回错误的结果；<br />
+可用性：主要大部门的机器正常，就仍然可以正常工作；<br />
+不依赖时间来确保一致,即系统是异步的；<br />
+一般情况下,运行时间由大多数的机器决定,不会因为有少部分慢的机器而影响总体效率<br />
+通俗来讲，一致性的问题可以分解为两个问题：<br />
+1、任何一次修改保证数据一致性<br />
+2、多次数据修改的一致性</p>
+<p>弱一致性：不要求每次修改的内容在修改后多副本的内容是一致的，对问题1的解决比较宽松，更多解决问题2，该类算法追求每次修改的高度并发性，减少多副本之间修改的关联性，以获得更好的并发性能。例如最终一致性，无所谓每次用户修改后的多副本的一致性及格过，只要求在单调的时间方向上，数据最终保持一致，如此获得了修改极大的并发性能。<br />
+强一致性：强调单次修改后结果的一致，需要保证了对问题1和问题2要求的实现，牺牲了并发性能。<br />
+一致性算法有：两阶段提交算法、分布式锁服务、Paxos算法和Raft算法。<br />
+两阶段提交参见这里分布式事务<br />
+分布式锁服务参加这里分布式锁以及三种实现方式<br />
+下面主要介绍Paxos算法和Raft一致性算法。</p>
+<p>Paxos算法<br />
+Paxos算法是一个会者简单，不会者觉得很难的算法，就连Lamport本文也不得不为Paxos先后做了三次解释。<br />
+查阅了很多资料，最后发现维基百科中对Paxos的解释最为准确和易懂，可见参考文件中。这里只是阐述算法的过程和原理，不再做深一步的证明和理解。<br />
+Paxos算法分为两个简单，分别是准备阶段（Prepare）和接受阶段（Accept），当Proposer接收到来自客户端的请求时，就会进入如下流程：<br />
+<img src="media/15854050053037/15860734502507.jpg" alt="" /></p>
+<p>Paxos算法</p>
+<p>只要Proposer经过多数派接受，该提案就会成为正式的决议。<br />
+Raft一致性算法<br />
+Raft是Paxos的变体，不过Raft简化了Paxos，任何时间内，只有leader能够发起提案，这就涉及到leader选举问题。<br />
+Raft算法中有一下三个角色：</p>
+<p>1.Leader：负责 Client 交互 和 log 复制，同一时刻系统中最多存在一个；<br />
+2.Follower：被动响应请求 RPC，从不主动发起请求 RPC；<br />
+3.Candidate : 由Follower 向Leader转换的中间状态。<br />
+Leader选举过程：<br />
+在极简的思维下，一个最小的 Raft 民主集群需要三个参与者（如下图：A、B、C），这样才可能投出多数票。初始状态 ABC 都是 Follower，然后发起选举这时有三种可能情形发生。下图中前二种都能选出 Leader，第三种则表明本轮投票无效（Split Votes），每方都投给了自己，结果没有任何一方获得多数票。之后每个参与方随机休息一阵（Election Timeout）重新发起投票直到一方获得多数票。这里的关键就是随机 timeout，最先从 timeout 中恢复发起投票的一方向还在 timeout 中的另外两方请求投票，这时它们就只能投给对方了，很快达成一致。<br />
+<img src="media/15854050053037/15860734763679.jpg" alt="" /></p>
+<p>Raft 协议强依赖 Leader 节点的可用性来确保集群数据的一致性。数据的流向只能从 Leader 节点向 Follower 节点转移。当 Client 向集群 Leader 节点提交数据后，Leader 节点接收到的数据处于未提交状态（Uncommitted），接着 Leader 节点会并发向所有 Follower 节点复制数据并等待接收响应，确保至少集群中超过半数节点已接收到数据后再向 Client 确认数据已接收。一旦向 Client 发出数据接收 Ack 响应后，表明此时数据状态进入已提交（Committed），Leader 节点再向 Follower 节点发通知告知该数据状态已提交。<br />
+Leader的选举问题</p>
+<h1><a id="%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E4%B8%8E%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93" class="anchor" aria-hidden="true" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%E4%B8%8E%E5%85%B1%E8%AF%86%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93"><span class="octicon octicon-link"></span></a>分布式一致性算法与共识算法总结</h1>
+<p>经典分布式一致性算法：<br />
+2 Phase commit protocol</p>
+<p>3 phase commit protocol</p>
+<p>Paxos： 唯一有效的一致性算法， 其他算法都改算法的某种程度的简化版</p>
+<p>分布式一致性算法特点：<br />
+领域： 分布式数据库</p>
+<p>目标： 其解决的问题是分布式系统如何就某个值（决议）达成一致。</p>
+<p>只有一种算法： paxos</p>
+<p>特点： 无拜占庭容错， n/2 +1,</p>
+<p>主流的传统分布式一致性算法其实只有一个：Paxos。包括Raft在内的其他算法，都属于Paxos的变种，或特定假设场景下的Paxos算法。</p>
+<p>传统分布式一致性算法和区块链共识机制的异同点<br />
+相同点</p>
+<p>Append only</p>
+<p>时间序列化</p>
+<p>少数服从多数</p>
+<p>分离覆盖（即长链覆盖短链区块，节点大数据量日志覆盖小数据量日志）<br />
+不同点</p>
+<p>传统分布式一致性算法并不考虑拜占庭容错，只假设所有节点仅发生宕机、网络故障等非人为问题，没有考虑恶意节点。</p>
+<p>传统分布式一致性算法面向数据库或文件，而区块链共识机制面向交易或价值传输。<br />
+详细介绍<br />
+经典的分布式一致性算法<br />
+Paxos算法<br />
+Paxos算法是莱斯利·兰伯特（Leslie Lamport）1990年提出的一种基于消息传递的一致性算法，其解决的问题是分布式系统如何就某个值（决议）达成一致。</p>
+<p>从工程实践的意义上来说，通过Paxos可以实现多副本一致性、分布式锁、名字管理、序列号分配等。比如，在一个分布式数据库系统中，如果各节点的初始状态一致，每个节点执行相同的操作序列，那么他们最后得到的状态就是一致的。为保证每个节点执行相同的命令序列，需要在每一条指令上执行一个“一致性算法”以保证每个节点看到的指令一致。后续又增添多个改进版本的Paxos，形成了Paxos协议家族，但其共同点是不容易工程实现。</p>
+<p>Lamport在2011年的论文Leaderless Byzanetine Paxos中表示，不清楚实践中是否有效，考虑Paxos本身实现的难度以及复杂程度，此方案工程角度不是最优，但是系统角度应该是最好的。</p>
+<ol start="2">
+<li>Raft算法</li>
+</ol>
+<p>Paxos协议的难以理解是出了名的，斯坦福大学的博士生Diego Ongaro把对其的研究作为了自己的博士课题。2014年秋天，他正式发表了博士论文CONSENSUS: BRIDGING THEORY AND PRACTICE，并给出了分布式一致性协议的一个实现算法，即Raft。</p>
+<p>在论文正式发表前，Diego Ongaro还把与Raft相关的部分摘了出来，形成了一篇十多页的文章In Search of an Understandable Consensus Algorithm，即人们俗称的Raft论文。</p>
+<p>Raft算法主要注重协议的落地性和可理解性，让分布式一致性协议可以较为简单地实现。Raft和Paxos一样，只要保证n/2+1节点正常就能够提供服务；同时，Raft更强调可理解性，使用了分而治之的思想把算法流程分为选举、日志复制、安全性三个子问题。</p>
+<p>在一个由Raft协议组织的集群中有三类角色：Leader（领袖）、Follower（群众）、Candidate（候选人）。Raft开始时在集群中选举出Leader负责日志复制的管理，Leader接受来自客户端的事务请求（日志），并将它们复制给集群的其他节点，然后负责通知集群中其他节点提交日志，Leader负责保证其他节点与他的日志同步，当Leader宕掉后集群其他节点会发起选举选出新的Leader。</p>
+<p>共识算法<br />
+当我们描述传统分布式一致性算法时，其实是基于一个假设——分布式系统中没有拜占庭节点（即除了宕机故障，没有恶意篡改数据和广播假消息的情况）。而当要解决拜占庭网络中的数据一致性问题时，则需要一种可以容错的算法，我们可以把这类算法统称为拜占庭容错的分布式一致性算法。而共识机制，就是在拜占庭容错的分布式一致性算法基础上，根据具体业务场景传输和同步数据的通信模型。</p>
+<ol>
+<li>工作量证明机制（Proof of Work, POW）</li>
+</ol>
+<p>POW依赖机器进行数学运算来获取记账权，资源消耗相比其他共识机制高、可监管性弱；同时，每次达成共识需要全网共同参与运算，性能效率比较低，容错性方面允许全网50%节点出错。第一个运用POW的是比特币系统，它能够使更长总账的产生具有计算性难度，平均每10分钟有一个节点找到一个区块</p>
+<ol start="2">
+<li>股权证明机制（Proof of Stake, POS）</li>
+</ol>
+<p>股权证明机制已有很多不同变种，但基本概念是产生区块的难度应该与用户在网络里所占的股权成比例</p>
+<ol start="3">
+<li>授权股权证明机制（DPOS）</li>
+</ol>
+<p>每个股东可以将其投票权授予一名代表，获票数最多的前100名代表按既定时间表轮流产生区块。所有代表将收到等同于一个平均水平的区块所含交易费的10%作为报酬，如果一个平均水平的区块含有100股作为交易费，则一名代表将获得1股作为报酬。</p>
+<p>该模式每30秒便可产生一个新区块，在正常的网络条件下区块链分叉的可能性极小，即使发生也可以在几分钟内得到解决。</p>
+<ol start="4">
+<li>实用拜占庭协议（PBFT）</li>
+</ol>
+<p>PBFT是一种基于消息传递的一致性算法，算法经过三个阶段达成一致性，这些阶段可能因为失败而重复进行。</p>
+<p>假设节点总数为3f+1，f为拜占庭错误节点：</p>
+<p>（1）当节点发现leader作恶时，通过算法选举其他的replica为leader；</p>
+<p>（2）leader通过pre-prepare 消息把它选择的value广播给其他replica节点，其他replica节点如果接受则发送 prepare，如果失败则不发送；</p>
+<p>（3）一旦2f个节点接受prepare消息，则节点发送commit消息；</p>
+<p>（4）当2f+1个节点接受commit消息后，代表该value值被确定。</p>
+<p>b6b2c783ac6f4c0687543a5fc82fa405_th.jpg.png<br />
+该算法主要应用在hyperledger fabric等联盟区块链或私有区块链场景中，容错率低、灵活性差，超过1/3的节点作恶就会导致系统崩溃，并且不可动态添加节点（部分论文讨论了动态节点的PBFT算法，但是理论和实践上都有比较强的假设条件）。</p>
+<ol start="5">
+<li>GEAR共识协议（Group Estimate and Rotate）</li>
+</ol>
+<p>该协议是唐盛（北京）物联技术有限公司自主研发的共识协议，通过轮转记账（rotate）、集体评估（group estimate）和齿轮共识路由（gear）三个子协议组成，结合区块链数据结构和点对点网络通信的特点，实现安全、高效、去中心化、应用场景灵活的数据同步共识。目前，该协议已经在“唐盛链”中得到应用。</p>
+<p>协议的参与者包括轮转见证人（rotate witness）、一级集体评估人（voter）、二级集体评估人（valuer）。Voter作为接入共识网络的用户，既是系统的使用者也是一级集体评估人，按照其所持代币加权评估选举出轮转见证人，轮转见证人按照等概率轮流记账（产生区块）。二级集体评估人是在评估事件发生时由轮转见证人转化而来，通过加权平均的接近率抢夺一次记账机会</p>
+<p>作者：millerix<br />
+链接：<a href="https://www.jianshu.com/p/9a9290fb0727">https://www.jianshu.com/p/9a9290fb0727</a><br />
+来源：简书<br />
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2020/03/28</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F.html'>分布式系统</a></span>
+          				   
+                    
+
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15853877486542.html">
+                
+                  <h1>分布式系统书籍</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p><a href="https://www.cnblogs.com/Micheal-G/p/6057673.html">https://www.cnblogs.com/Micheal-G/p/6057673.html</a></p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2020/03/28</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F.html'>分布式系统</a></span>
+          				   
+                    
+
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15848127872361.html">
+                
+                  <h1>容灾【备份】</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>原文链接<a href="https://juejin.im/post/5d2030616fb9a07eea3292f1">https://juejin.im/post/5d2030616fb9a07eea3292f1</a></p>
+<p>本文是Fault-Tolerant VM论文的阅读笔记。本文实现了一个容错虚拟机，在另外一个服务器上备份主虚拟机的运行。可以有两种实现思路：</p>
+<p>备份全部状态的变化到备份虚拟机（包括CPU、内存、I/O设备）。但是，这样一来需要传输处理的数据内容将十分巨大。<br />
+将虚拟机视为确定状态机，这是本文的方法。只需要初始状态和确定的输入，以及记录一些不确定事件即可完成备份。</p>
+<p>VMware已经在vSphere中实现了本文的虚拟机备份机制，能够在主虚拟机发生故障之后无缝启用备份虚拟机。目前这个技术只支持单核处理器，因为多核处理器指令访存也是不确定的事件。当然，本文实现的备份机制奏效的前提是故障在被外部发现之前都能被检测到。<br />
+基础的容错设计<br />
+一个容错的配置如下图所示，对于一台虚拟机（主虚拟机）而言，我们在其他物理服务器上运行一台备份虚拟机，两台主机处于虚拟锁步状态。它们会连接到同一个共享磁盘。其中，所有的输入（包括网络、鼠标、键盘等等）只会交给主虚拟机，然后通过日志信道发送给备份虚拟机。<br />
+<img src="media/15848127872361/15848128246152.jpg" alt="" /></p>
+<p>确定回放实现<br />
+复制虚拟机的运行主要面临三个挑战：</p>
+<p>正确地捕获所有的输入和必要的不确定事件来保证备份虚拟机的确定运行，<br />
+正确地将输入和不确定性应用到备份虚拟机<br />
+保证不降低性能</p>
+<p>不过，VMware vSphere已经提供了VMware确定回放[2]功能。<br />
+容错协议<br />
+输出要求：如果备份虚拟机在故障之后替代了主虚拟机，备份虚拟机运行期间要保证外界得到的输出是完全一致的。<br />
+复制代码<br />
+只有满足了输出要求，外界才不会观测到故障的发生，而这个要求需要延迟外部输出直到备份虚拟机收到足够的信息来重放输出操作。一个必要的条件就是备份虚拟机需要收到输出操作之前的所有日志。备份虚拟机不能在输出操作之前上线，因为可能主虚拟机中会存在不确定事件取消了后续的输出。<br />
+输出规则：主虚拟机不会将输出发送给外界，直到收到了来自备份虚拟机收到产生输出的操作的日志的确认。<br />
+复制代码<br />
+容错协议如下图所示，异步事件、输入和输出操作发送给了备份虚拟机，主虚拟机只有在备份虚拟机确认收到输出操作后输出。<br />
+<img src="media/15848127872361/15848128378814.jpg" alt="" /></p>
+<p>不过协议无法保证重复输出，因为备份虚拟机无从知晓主虚拟机在输出之前还是之后崩溃，另外故障发生时发送给主虚拟机的包也会丢失。不过好在，网络基础设施、操作系统、应用程序通常都能处理丢包或者重复的情况。<br />
+故障检测和响应<br />
+在备份虚拟机取代主虚拟机之前，需要应用全部的日志。主虚拟机和备份虚拟机主要通过心跳包和日志通信来判断对方是否故障。为了解决脑裂问题，两个虚拟机需要通过共享磁盘上得知对方是否故障。如果主虚拟机故障，那么备份虚拟机取代主虚拟机，并创建一个新的备份虚拟机；如果备份虚拟机故障，那么创建一个新的备份虚拟机。<br />
+容错实现实践</p>
+<p>启动和重启容错虚拟机</p>
+<p>在启动主虚拟机或者备份虚拟机故障后，需要创建一个和主虚拟机相同状态的备份虚拟机，并且不能打断主虚拟机的运行。具体通过VMware VMotion实现，VMotion将虚拟机复制到另外一个物理服务器上，将源虚拟机作为主虚拟机，将目标虚拟机作为备份虚拟机。<br />
+备份虚拟机通常位于集群中另外一台服务器上，由vSphere调度选择放置的服务器，这些服务器能够访问共享的磁盘。</p>
+<p>管理日志信道：</p>
+<p>日志信道可以通过一个大的缓冲来实现，必要的时间可以控制主虚拟机的运行速度来保证备份虚拟机能够赶上。<br />
+<img src="media/15848127872361/15848128473885.jpg" alt="" /></p>
+<p>容错虚拟机的操作</p>
+<p>虚拟机会有各种各样的控制操作，例如关机、修改资源分配，这些其实都可以通过特殊的控制操作日志来实现。<br />
+容错机制给VMotion带来了挑战，VMotion用来无缝迁移虚拟机，要求在切换的时候挂起所有磁盘I/O。主虚拟机可以挂起磁盘I/O，但是备份虚拟机重复主虚拟机的，需要通过日志信道请求主虚拟机挂起磁盘I/O。</p>
+<p>磁盘I/O实现中的问题：</p>
+<p>实现磁盘I/O会面临以下问题</p>
+<p>磁盘操作是非阻塞的，所以可以并行写入，但是由此引入了不确定性。解决方案是强制磁盘操作串行进行。<br />
+磁盘操作（DMA）和应用程序会并行操作同一块内存，引发数据竞争。解决方案是使用额外缓冲，读取磁盘时先将数据读入额外缓冲，写入磁盘时先将数据复制到额外缓冲。<br />
+当主虚拟机故障，备份虚拟机替代时，磁盘I/O可能没有完成。解决方案是重新执行磁盘操作，因为前两个方案已经避免了数据竞争，因此磁盘操作是可重入的。</p>
+<p>网络I/O实现中的问题：</p>
+<p>vSphere实现了一些网络方面的优化，例如直接从网络缓冲区取走数据，而不通过陷阱，但是这将带来不确定，因此需要禁用这个优化。另外也做了以下优化：</p>
+<p>通过批量操作降低虚拟机陷阱和中断次数。<br />
+降低传输数据包的延迟：将发送操作和接收操作注册到TCP协议栈之中，保证立即发送和接收日志。</p>
+<p>设计中的选择<br />
+是否共享磁盘<br />
+主虚拟机和备份虚拟机其实可以采用独立的磁盘，磁盘是内部存储，所以不需要满足输出要求，但是两个磁盘需要在启动容错之初进行同步。不过，这是脑裂问题就不能通过磁盘解决了，需要通过第三方协调服务器。</p>
+<p><img src="media/15848127872361/15848128719572.jpg" alt="" /></p>
+<p>在备份虚拟机中执行磁盘读取操作<br />
+备份虚拟机也可以考虑直接从磁盘读取数据而不需要通过日志信道。但是这会导致备份虚拟机变慢，因为需要等待磁盘读取操作，并且需要处理读取故障，以及推迟写入操作保证之前的读取操作被备份服务器成功执行。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2020/03/22</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F.html'>分布式系统</a></span>
+          				   
+                    
+
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15848127093419.html">
+                
+                  <h1>容灾【备份】</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>原文链接：<a href="http://blog.luoyuanhang.com/2017/05/20/ftvm-notes/">http://blog.luoyuanhang.com/2017/05/20/ftvm-notes/</a></p>
+<p>在分布式系统中，容错方法有很多种，常见的传统方法有：主/副服务器方法（当主服务器宕机之后，由副服务器来接管它的工作），这种方法通常需要机器之间的高带宽。</p>
+<p>另外还有确定（deterministic）状态机方法：将另一台服务器初始化为和主服务器一样的状态，然后让它们都接受到同样的输入，这样它们的状态始终保持一致，但是这种方法对于非确定的（non-deterministic）操作并不适用。</p>
+<p>本文中讨论的方法是使用虚拟机作为状态机，它具有以下优点：</p>
+<p>操作全部被虚拟化<br />
+虚拟机本身就支持 non-deterministic 操作<br />
+虚拟机管理程序（Hypervision）能够记录所有在虚拟机上的操作，所以能够记录主服务器（Primary）所有操作，然后在副服务器（Backup）上进行演绎<br />
+基本设计方案</p>
+<p>如图就是本文提到的容错系统的架构，一个 Primary，一个 Backup，Primary 和 Backup 之间通过 Logging Channel 进行通信，Primary 和 Backup 基本保持同步，Backup 稍稍落后，它们两个之间会通过 heartbeat 进行 fail 检测，并且它们使用共享磁盘（Shared Disk）。</p>
+<p>确定（deterministic）操作的演绎<br />
+让两台机器初始状态相同，它们接受相同的输入，顺序相同，两台机器执行的任务的结果就会相同。</p>
+<p>但是如果存在非确定的（non-deterministic）操作（比如中断事件、读取CPU时钟计数器的值操作就是非确定的），它会影响状态机的执行。</p>
+<p>难点在于：</p>
+<p>需要捕捉全部的输入和 non-deterministic 操作在保证 Backup 是deterministic 的<br />
+需要准确将全部输入和 non-deterministic 操作应用到 Backup 中<br />
+需要保证系统高效<br />
+设计方案为：将所有的 input 和 non-deterministic 操作写入到 log 中（file），对于 non-deterministic 操作还要记录和它相关的状态信息等，确保 non-deterministic 操作后Backup状态还是和 Primary 一致</p>
+<p>FT（Fault-Tolerance）协议<br />
+FT 协议是应用于 logging channel 的协议，协议的基本要求为：</p>
+<p>如果 Primary 宕机了，Backup 接替它的工作，Backup 之后向外界发出所有的 Output 要和 Primary 原本应当发送的一致。</p>
+<p>为了保证以上的要求，设计如下系统：</p>
+<p>Primary会在所有关于本次Output 的所有信息都发送给 Backup 之后（并且要确保 Backup 收到）才会把 output 发送给外界<br />
+Primary 只是推迟将 output 发送给外界，而不会暂停执行后边的任务<br />
+流程如图所示：</p>
+<p>但是这种方法不能保证 output 只发出一次，如果 primary 宕机了，backup 不能判断它是在发送了 output 之前还是之后宕机的，因此 backup 会再发送一次 output。但是这个问题很容易解决，因为：</p>
+<p>output 是通过网络进行发送的，例如 TCP 之类的网络协议能够检测重复的数据包<br />
+即使 output 被发送了2次其实也没关系。如果 output 是一个写操作，它会在同一个位置写入两次，结果不会发生变化；如果 output 是读取操作，读的内容会被放入 bounce buffer（为了消除 DMA 竞争），数据会在 IO 中断之后被送到<br />
+宕机检测<br />
+如何知道有机器宕机，在该系统中是十分重要的。该设计使用的是UDP heartbeat 机制来检测 Primary 与 Backup 之间的通信是否正常。</p>
+<p>但是使用这种方法会存在裂脑问题（split-brain，Primary 和 Backup 同时宕机），该怎么解决呢？</p>
+<p>该设计中使用了共享存储（Shared Storage），对它的操作是原子的，Primary 和 Backup不能同时进行一个操作（提供原子的 test-and-set 操作）</p>
+<p>如果检测出 Primary 宕机，Backup 会成为 Primary，接替之前的工作，然后再寻找一个 Backup。</p>
+<p>具体实现<br />
+启动/重启 Virtual Machine<br />
+如何启动一个和 Primary 状态一样的 Backup？</p>
+<p>VMware Vmotion 操作能够将一台 VM 从一个 Server 完整的迁移到另一个 Server（只需要很短的中断），在该设计中的方法对 Vmotion 做了一点修改，不是进行迁移，而是直接克隆。</p>
+<p>管理 Logging Channel</p>
+<p>如图，该设计使用了一个大的 buffer，来保存 logging entries，Primary 把自己的 entry 存到 buffer 中，由 logging channel 发送给Backup 的 buffer，然后 Backup 从 buffer 读取命令执行。</p>
+<p>如果 Backup 的 buffer 空了，没有命令执行了，Backup 会等待新的 entry<br />
+如果 Primary 的 buffer 满了，Primary 会等待，等 buffer 中有空余空间再继续执行<br />
+Disk I/O问题<br />
+disk 操作是并行的，同时对 disk 的同一位置进行操作会导致 non-deterministic</p>
+<p>解决方案：检测 IO 竞争，使这些操作串行执行</p>
+<p>Disk IO 使用 DMA（Direct Memory Access），同时访问内存同一位置的操作会导致 non-deterministic</p>
+<p>解决方案：对 disk 操作的内存设置内存的页保护，但是这种方法代价太高；该设计中使用了 bounce buffer，它的大小和 disk 所操作的内存部分大小是一致的，read 操作直接将内容读入 buffer，当其他操作完成，写入内存，write 操作将写内容写入 buffer，之后再写入磁盘。</p>
+<p>总结<br />
+Vmware 提出的这种 Primary/Backup 方法是分布式容错方法中非常重要的一部分，可以用在许多系统中，不仅仅是分布式存储（GFS 的容错方法），也可以用在分布式计算中，因为它是将所有的操作都记录下来，将它们重新在 Backup 上进行演绎，从而起到了备份的作用，能够做到容错（Fault-Tolerance）。</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2020/03/22</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F.html'>分布式系统</a></span>
+          				   
+                    
+
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>小石头的码疯窝</h1>
+                <div class="site-des">记录一些学习笔记</div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F.html"><strong>推荐系统</strong></a>
+        
+            <a href="TensorFlow.html"><strong>TensorFlow</strong></a>
+        
+            <a href="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0.html"><strong>机器学习平台</strong></a>
+        
+            <a href="%E5%9B%BE%E8%AE%A1%E7%AE%97.html"><strong>图计算</strong></a>
+        
+            <a href="pytorch.html"><strong>pytorch</strong></a>
+        
+            <a href="%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F.html"><strong>分布式系统</strong></a>
+        
+            <a href="mlops.html"><strong>mlops</strong></a>
+        
+            <a href="paddle.html"><strong>paddle</strong></a>
+        
+            <a href="%E5%8F%82%E6%95%B0%E6%9C%8D%E5%8A%A1%E5%99%A8.html"><strong>参数服务器</strong></a>
+        
+            <a href="GAN.html"><strong>GAN</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="16533711069508.html">---</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16490569390259.html">模型生产环境中的反馈与数据回流</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16482627913984.html">mlops之监控与数据回流</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16371350579612.html">机器学习平台在云音乐的持续实践</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16268581441013.html">为机器学习量身定做的ops工具：cml & dvc</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+figure{margin: 0;padding: 0;}
+figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: black;
+    background: none;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background:#b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+    text-shadow: none;
+    background: #b3d4fc;
+}
+
+@media print {
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+    }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #F7F7F7;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #999;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #9a6e3a;
+    background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #07a;
+}
+
+.token.function,
+.token.class-name {
+    color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #e90;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+
+
+  </body>
+</html>

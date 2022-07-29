@@ -1,0 +1,725 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  参数服务器 - 小石头的码疯窝
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="小石头的码疯窝" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+ 
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site: ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 小石头的码疯窝</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+        
+        <li><a target="self" href="index.html">Home</a></li>
+        
+        <li><a target="_self" href="archives.html">Archives</a></li>
+        
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F.html">推荐系统</a></li>
+        
+            <li><a href="TensorFlow.html">TensorFlow</a></li>
+        
+            <li><a href="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0.html">机器学习平台</a></li>
+        
+            <li><a href="%E5%9B%BE%E8%AE%A1%E7%AE%97.html">图计算</a></li>
+        
+            <li><a href="pytorch.html">pytorch</a></li>
+        
+            <li><a href="%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F.html">分布式系统</a></li>
+        
+            <li><a href="mlops.html">mlops</a></li>
+        
+            <li><a href="paddle.html">paddle</a></li>
+        
+            <li><a href="%E5%8F%82%E6%95%B0%E6%9C%8D%E5%8A%A1%E5%99%A8.html">参数服务器</a></li>
+        
+            <li><a href="GAN.html">GAN</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="15836784836219.html">
+                
+                  <h1>ps-lite</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h1><a id="ps-lite%E5%86%8D%E4%B8%80%E6%AC%A1%E7%A0%94%E8%AF%BB%E6%BA%90%E7%A0%81" class="anchor" aria-hidden="true" href="#ps-lite%E5%86%8D%E4%B8%80%E6%AC%A1%E7%A0%94%E8%AF%BB%E6%BA%90%E7%A0%81"><span class="octicon octicon-link"></span></a>ps-lite再一次研读源码</h1>
+<h2><a id="postoffice" class="anchor" aria-hidden="true" href="#postoffice"><span class="octicon octicon-link"></span></a>Postoffice</h2>
+<p>Postoffice是个单例类，是整个ps-lite的核心，相当于整个ps-lite的调控中心，包括对调起Van负责整个网络的拉起、通信、命令管理如增加节点、移除节点、恢复节点等等；整个集群基本信息的管理，比如worker、server数的获取、server端feature分布的获取、worker/server Rank与node id的互转、节点角色身份等等；</p>
+<h2><a id="van%E5%92%8C-zmqvan%EF%BC%9A%E7%BD%91%E7%BB%9C%E5%A6%82%E4%BD%95%E8%A2%AB%E6%9E%84%E5%BB%BA%EF%BC%8C%E5%A6%82%E4%BD%95%E9%80%9A%E4%BF%A1" class="anchor" aria-hidden="true" href="#van%E5%92%8C-zmqvan%EF%BC%9A%E7%BD%91%E7%BB%9C%E5%A6%82%E4%BD%95%E8%A2%AB%E6%9E%84%E5%BB%BA%EF%BC%8C%E5%A6%82%E4%BD%95%E9%80%9A%E4%BF%A1"><span class="octicon octicon-link"></span></a>Van 和ZMQVan： 网络如何被构建， 如何通信</h2>
+<p>Van是ps-lite的一个基类， 实现了基础的公共函数，ZMQVan是基于zeromq的Van的实现，Van是整个Parameter Server的通信模块；在整个训练任务的生命周期中，有以下几点值得注意：</p>
+<ol>
+<li>任务启动时，所有nodes，发送消息到scheduler，；</li>
+<li>启动好scheduler后， worker与server会互相连接，注意worker之间、server之间不会连接；</li>
+<li>框架运行过程中，通信中包括以下多种信息类型，如数据信息：worker向server更新梯度、心跳信息：worker/server向scheduler发送心跳、server和worker的连接、scheduler端的处理命令：如添加节点、恢复dead节点等等；</li>
+<li>Message中的Meta，如是否request、app_id、timestamp、nodes的ip、port、role等等在网络通信过程中会打包成protobuf，减少通信压力；</li>
+<li>在节点挂掉（心跳时间内没回应）会恢复节点，这个过程中会将挂掉节点的id赋给恢复的节点；</li>
+</ol>
+<h2><a id="customer%E6%B6%88%E6%81%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E5%A4%84%E7%90%86" class="anchor" aria-hidden="true" href="#customer%E6%B6%88%E6%81%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E5%A4%84%E7%90%86"><span class="octicon octicon-link"></span></a>Customer 消息如何被处理</h2>
+<p>Customer主要是request、response，比如新建一次request，会返回一个timestamp，这个timestamp会作为这次request的id，每次请求会自增1，相应的res也会自增1，调用wait时会保证 后续比如做Wait以此为ID识别，tracker_是Customer内用来记录request(使用request id)和对应的response的次数的一个map；recv_handle_绑定Customer接收到request后的处理函数(SimpleApp::Process);Customer会新拉起一个线程，用于在customer生命周期内，使用recv_handle_来处理接受的请求，这里是使用了一个线程安全队列，Accept()用于往队列中一直发送消息，对于Worker，比如KVWorker，recv_handle_保存拉取的msg中的数据，对于Server,需要使用set_request_handle来设置对应的处理函数，如KVServerDefaultHandle，使用std::unordered_map&lt;Key, Val&gt; store保存server的参数，当请求为push时，对store参数做更新，请求为pull时对参数进行拉取；</p>
+<h2><a id="message%EF%BC%9A%E6%B6%88%E6%81%AF%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84" class="anchor" aria-hidden="true" href="#message%EF%BC%9A%E6%B6%88%E6%81%AF%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="octicon octicon-link"></span></a>Message： 消息数据结构</h2>
+<p>Message封装包括Meta, Control, Node等消息， 其中data的部分，采用的SArray这个数据结构可以理解为一个零拷贝的vector，能兼容vector的数据结构，另外为了保证高效会对Message里的Meta，Control，Node使用protobuf来打包，这里有个疑问，为啥不会数据比如推送的梯度信息用protobuf打包呢？</p>
+<h2><a id="ps%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E7%BD%91%E7%BB%9C" class="anchor" aria-hidden="true" href="#ps%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E7%BD%91%E7%BB%9C"><span class="octicon octicon-link"></span></a>PS如何构建网络</h2>
+<p>PS构建网络步骤如下：</p>
+<ol>
+<li>scheduler节点拉起；</li>
+<li>worker、server节点想scheduler发送请求，汇报ip、端口等等，scheduler分配node id给相应节点；</li>
+<li>所有节点启动后，scheduler发送消息周知；</li>
+<li>所有节点内部启动线程，一直发送心跳, scheduler会来处理相应的命令；</li>
+</ol>
+<h2><a id="%E5%90%8C%E6%AD%A5%E6%93%8D%E4%BD%9C" class="anchor" aria-hidden="true" href="#%E5%90%8C%E6%AD%A5%E6%93%8D%E4%BD%9C"><span class="octicon octicon-link"></span></a>同步操作</h2>
+<p>ps-lite里面有两个涉及到等待同步的地方：</p>
+<ol>
+<li>
+<p>Worker pull时是异步操作，通常调用Wait来调用Customer::WaitRequest()来保证customer里面的request和response两者相等，即保证Pull完成后再做其他操作；</p>
+</li>
+<li>
+<p>另外在一个worker内，可以存在多个Customer,当第一个发送barrier后，scheduler接收到request请求，然后根据msg判断是request，然后，向barrier_group里的所有node，node接到后， Postoffice::Get()-&gt;Manage(*msg)将barrier_done_中的customer_id对应的bool置true，完成同步操作，这里貌似没有我们常说的asp、bsp、ssp，可以通过增加相应的Command来完成；</p>
+</li>
+<li>
+<p>当构建节点连接时，也可以进行一个barrier；</p>
+</li>
+<li>
+<p>更复杂的比如Asp，bsp，ssp可以通过发送新定Command来完成</p>
+<p>void Van::ProcessBarrierCommand(Message* msg) {<br />
+auto&amp; ctrl = msg-&gt;meta.control;<br />
+if (msg-&gt;meta.request) {<br />
+if (barrier_count_.empty()) {<br />
+barrier_count_.resize(8, 0);<br />
+}<br />
+int group = ctrl.barrier_group;<br />
+++barrier_count_[group];<br />
+PS_VLOG(1) &lt;&lt; &quot;Barrier count for &quot; &lt;&lt; group &lt;&lt; &quot; : &quot; &lt;&lt; barrier_count_[group];<br />
+if (barrier_count_[group] ==<br />
+static_cast<int>(Postoffice::Get()-&gt;GetNodeIDs(group).size())) {<br />
+barrier_count_[group] = 0;<br />
+Message res;<br />
+res.meta.request = false;<br />
+res.meta.app_id = msg-&gt;meta.app_id;<br />
+res.meta.customer_id = msg-&gt;meta.customer_id;<br />
+res.meta.control.cmd = Control::BARRIER;<br />
+for (int r : Postoffice::Get()-&gt;GetNodeIDs(group)) {<br />
+int recver_id = r;<br />
+if (shared_node_mapping_.find(r) == shared_node_mapping_.end()) {<br />
+res.meta.recver = recver_id;<br />
+res.meta.timestamp = timestamp_++;<br />
+CHECK_GT(Send(res), 0);<br />
+}<br />
+}<br />
+}<br />
+} else {<br />
+Postoffice::Get()-&gt;Manage(*msg);<br />
+}<br />
+}</p>
+</li>
+</ol>
+<h2><a id="sampleapp" class="anchor" aria-hidden="true" href="#sampleapp"><span class="octicon octicon-link"></span></a>SampleApp</h2>
+<p>一个基类，封装了基本的PS app的操作，KVWorker、KVServer集成SampleApp，完成相应逻辑: 如push、pull、key的切片等等；</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2020/03/08</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E5%8F%82%E6%95%B0%E6%9C%8D%E5%8A%A1%E5%99%A8.html'>参数服务器</a></span>
+          				   
+                    
+
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15536014868367.html">
+                
+                  <h1>ps-lite再一次研读源码</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2><a id="postoffice" class="anchor" aria-hidden="true" href="#postoffice"><span class="octicon octicon-link"></span></a>Postoffice</h2>
+<p>Postoffice是个单例类，是整个ps-lite的核心，相当于整个ps-lite的调控中心，包括对调起Van负责整个网络的拉起、通信、命令管理如增加节点、移除节点、恢复节点等等；整个集群基本信息的管理，比如worker、server数的获取、server端feature分布的获取、worker/server Rank与node id的互转、节点角色身份等等；</p>
+<h2><a id="van%E5%92%8C-zmqvan%EF%BC%9A%E7%BD%91%E7%BB%9C%E5%A6%82%E4%BD%95%E8%A2%AB%E6%9E%84%E5%BB%BA%EF%BC%8C%E5%A6%82%E4%BD%95%E9%80%9A%E4%BF%A1" class="anchor" aria-hidden="true" href="#van%E5%92%8C-zmqvan%EF%BC%9A%E7%BD%91%E7%BB%9C%E5%A6%82%E4%BD%95%E8%A2%AB%E6%9E%84%E5%BB%BA%EF%BC%8C%E5%A6%82%E4%BD%95%E9%80%9A%E4%BF%A1"><span class="octicon octicon-link"></span></a>Van 和ZMQVan： 网络如何被构建， 如何通信</h2>
+<p>Van是ps-lite的一个基类， 实现了基础的公共函数，ZMQVan是基于zeromq的Van的实现，Van是整个Parameter Server的通信模块；在整个训练任务的生命周期中，有以下几点值得注意：</p>
+<ol>
+<li>任务启动时，所有nodes，发送消息到scheduler，；</li>
+<li>启动好scheduler后， worker与server会互相连接，注意worker之间、server之间不会连接；</li>
+<li>框架运行过程中，通信中包括以下多种信息类型，如数据信息：worker向server更新梯度、心跳信息：worker/server向scheduler发送心跳、server和worker的连接、scheduler端的处理命令：如添加节点、恢复dead节点等等；</li>
+<li>Message中的Meta，如是否request、app_id、timestamp、nodes的ip、port、role等等在网络通信过程中会打包成protobuf，减少通信压力；</li>
+<li>在节点挂掉（心跳时间内没回应）会恢复节点，这个过程中会将挂掉节点的id赋给恢复的节点；</li>
+</ol>
+<h2><a id="customer%E6%B6%88%E6%81%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E5%A4%84%E7%90%86" class="anchor" aria-hidden="true" href="#customer%E6%B6%88%E6%81%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E5%A4%84%E7%90%86"><span class="octicon octicon-link"></span></a>Customer 消息如何被处理</h2>
+<p>Customer主要是request、response，比如新建一次request，会返回一个timestamp，这个timestamp会作为这次request的id，每次请求会自增1，相应的res也会自增1，调用wait时会保证 后续比如做Wait以此为ID识别，tracker_是Customer内用来记录request(使用request id)和对应的response的次数的一个map；recv_handle_绑定Customer接收到request后的处理函数(SimpleApp::Process);Customer会新拉起一个线程，用于在customer生命周期内，使用recv_handle_来处理接受的请求，这里是使用了一个线程安全队列，Accept()用于往队列中一直发送消息，对于Worker，比如KVWorker，recv_handle_保存拉取的msg中的数据，对于Server,需要使用set_request_handle来设置对应的处理函数，如KVServerDefaultHandle，使用std::unordered_map&lt;Key, Val&gt; store保存server的参数，当请求为push时，对store参数做更新，请求为pull时对参数进行拉取；</p>
+<h2><a id="message%EF%BC%9A%E6%B6%88%E6%81%AF%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84" class="anchor" aria-hidden="true" href="#message%EF%BC%9A%E6%B6%88%E6%81%AF%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="octicon octicon-link"></span></a>Message： 消息数据结构</h2>
+<p>Message封装包括Meta, Control, Node等消息， 其中data的部分，采用的SArray这个数据结构可以理解为一个零拷贝的vector，能兼容vector的数据结构，另外为了保证高效会对Message里的Meta，Control，Node使用protobuf来打包，这里有个疑问，为啥不会数据比如推送的梯度信息用protobuf打包呢？</p>
+<h2><a id="ps%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E7%BD%91%E7%BB%9C" class="anchor" aria-hidden="true" href="#ps%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E7%BD%91%E7%BB%9C"><span class="octicon octicon-link"></span></a>PS如何构建网络</h2>
+<p>PS构建网络步骤如下：</p>
+<ol>
+<li>scheduler节点拉起；</li>
+<li>worker、server节点想scheduler发送请求，汇报ip、端口等等，scheduler分配node id给相应节点；</li>
+<li>所有节点启动后，scheduler发送消息周知；</li>
+<li>所有节点内部启动线程，一直发送心跳, scheduler会来处理相应的命令；</li>
+</ol>
+<h2><a id="%E5%90%8C%E6%AD%A5%E6%93%8D%E4%BD%9C" class="anchor" aria-hidden="true" href="#%E5%90%8C%E6%AD%A5%E6%93%8D%E4%BD%9C"><span class="octicon octicon-link"></span></a>同步操作</h2>
+<p>ps-lite里面有两个涉及到等待同步的地方：</p>
+<ol>
+<li>
+<p>Worker pull时是异步操作，通常调用Wait来调用Customer::WaitRequest()来保证customer里面的request和response两者相等，即保证Pull完成后再做其他操作；</p>
+</li>
+<li>
+<p>另外在一个worker内，可以存在多个Customer,当第一个发送barrier后，scheduler接收到request请求，然后根据msg判断是request，然后，向barrier_group里的所有node，node接到后， Postoffice::Get()-&gt;Manage(*msg)将barrier_done_中的customer_id对应的bool置true，完成同步操作，这里貌似没有我们常说的asp、bsp、ssp，可以通过增加相应的Command来完成；</p>
+</li>
+<li>
+<p>当构建节点连接时，也可以进行一个barrier；</p>
+</li>
+<li>
+<p>更复杂的比如Asp，bsp，ssp可以通过发送新定Command来完成</p>
+<p>void Van::ProcessBarrierCommand(Message* msg) {<br />
+auto&amp; ctrl = msg-&gt;meta.control;<br />
+if (msg-&gt;meta.request) {<br />
+if (barrier_count_.empty()) {<br />
+barrier_count_.resize(8, 0);<br />
+}<br />
+int group = ctrl.barrier_group;<br />
+++barrier_count_[group];<br />
+PS_VLOG(1) &lt;&lt; &quot;Barrier count for &quot; &lt;&lt; group &lt;&lt; &quot; : &quot; &lt;&lt; barrier_count_[group];<br />
+if (barrier_count_[group] ==<br />
+static_cast<int>(Postoffice::Get()-&gt;GetNodeIDs(group).size())) {<br />
+barrier_count_[group] = 0;<br />
+Message res;<br />
+res.meta.request = false;<br />
+res.meta.app_id = msg-&gt;meta.app_id;<br />
+res.meta.customer_id = msg-&gt;meta.customer_id;<br />
+res.meta.control.cmd = Control::BARRIER;<br />
+for (int r : Postoffice::Get()-&gt;GetNodeIDs(group)) {<br />
+int recver_id = r;<br />
+if (shared_node_mapping_.find(r) == shared_node_mapping_.end()) {<br />
+res.meta.recver = recver_id;<br />
+res.meta.timestamp = timestamp_++;<br />
+CHECK_GT(Send(res), 0);<br />
+}<br />
+}<br />
+}<br />
+} else {<br />
+Postoffice::Get()-&gt;Manage(*msg);<br />
+}<br />
+}</p>
+</li>
+</ol>
+<h2><a id="sampleapp" class="anchor" aria-hidden="true" href="#sampleapp"><span class="octicon octicon-link"></span></a>SampleApp</h2>
+<p>一个基类，封装了基本的PS app的操作，KVWorker、KVServer集成SampleApp，完成相应逻辑: 如push、pull、key的切片等等；</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2019/03/26</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E5%8F%82%E6%95%B0%E6%9C%8D%E5%8A%A1%E5%99%A8.html'>参数服务器</a></span>
+          				   
+                    
+
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			
+			</p>
+			  </div>
+			</div>
+		</div>
+	</div><!-- large 8 -->
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <h1>小石头的码疯窝</h1>
+                <div class="site-des">记录一些学习笔记</div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F.html"><strong>推荐系统</strong></a>
+        
+            <a href="TensorFlow.html"><strong>TensorFlow</strong></a>
+        
+            <a href="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0.html"><strong>机器学习平台</strong></a>
+        
+            <a href="%E5%9B%BE%E8%AE%A1%E7%AE%97.html"><strong>图计算</strong></a>
+        
+            <a href="pytorch.html"><strong>pytorch</strong></a>
+        
+            <a href="%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F.html"><strong>分布式系统</strong></a>
+        
+            <a href="mlops.html"><strong>mlops</strong></a>
+        
+            <a href="paddle.html"><strong>paddle</strong></a>
+        
+            <a href="%E5%8F%82%E6%95%B0%E6%9C%8D%E5%8A%A1%E5%99%A8.html"><strong>参数服务器</strong></a>
+        
+            <a href="GAN.html"><strong>GAN</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="16533711069508.html">---</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16490569390259.html">模型生产环境中的反馈与数据回流</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16482627913984.html">mlops之监控与数据回流</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16371350579612.html">机器学习平台在云音乐的持续实践</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="16268581441013.html">为机器学习量身定做的ops工具：cml & dvc</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+figure{margin: 0;padding: 0;}
+figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: black;
+    background: none;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background:#b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+    text-shadow: none;
+    background: #b3d4fc;
+}
+
+@media print {
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+    }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #F7F7F7;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #999;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #9a6e3a;
+    background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #07a;
+}
+
+.token.function,
+.token.class-name {
+    color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #e90;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+
+
+  </body>
+</html>
