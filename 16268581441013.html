@@ -1,0 +1,793 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  为机器学习量身定做的ops工具：cml & dvc - 
+  
+  </title>
+ <meta name="description" content="">
+ <link href="atom.xml" rel="alternate" title="" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+    <script src="asset/highlightjs/highlight.pack.js"></script>
+    <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+<div id="header">
+    <h1><a href="index.html"></a></h1>
+</div>
+
+</nav>
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; </span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+      <li><a href="index.html">Home</a></li>
+      
+        <li class="divider"></li>
+        <li><label>推荐系统</label></li>
+
+          
+            <li><a title="推荐系统的禅与道" href="15951226773958.html">推荐系统的禅与道</a></li>
+          
+            <li><a title="推荐系统灌水文之如何理解Item" href="15763400595374.html">推荐系统灌水文之如何理解Item</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>TensorFlow</label></li>
+
+          
+            <li><a title="TensorFlow Sparse的一个优化" href="15768353446694.html">TensorFlow Sparse的一个优化</a></li>
+          
+            <li><a title="基础知识背景" href="15768070172080.html">基础知识背景</a></li>
+          
+            <li><a title="TensorFlow优化" href="15744799610685.html">TensorFlow优化</a></li>
+          
+            <li><a title="GDG上海 2019.10.13分享内容准备" href="15673444950441.html">GDG上海 2019.10.13分享内容准备</a></li>
+          
+            <li><a title="Dive Into TensorFlow" href="15659603996762.html">Dive Into TensorFlow</a></li>
+          
+            <li><a title="Maybe Best Practice With Sparse Machine Learning In TensorFlow" href="15430699092916.html">Maybe Best Practice With Sparse Machine Learning In TensorFlow</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>机器学习平台</label></li>
+
+          
+            <li><a title="---" href="16533711069508.html">---</a></li>
+          
+            <li><a title="机器学习平台在云音乐的持续实践" href="16371350579612.html">机器学习平台在云音乐的持续实践</a></li>
+          
+            <li><a title="泛模型管理与分发" href="16076083666793.html">泛模型管理与分发</a></li>
+          
+            <li><a title="机器学习与容器化平台" href="15861773530303.html">机器学习与容器化平台</a></li>
+          
+            <li><a title="机器学习工程实践" href="15648106167930.html">机器学习工程实践</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>图计算</label></li>
+
+          
+            <li><a title="直播场景PGL落地" href="16078481811620.html">直播场景PGL落地</a></li>
+          
+            <li><a title="Graph Neural Networks" href="16077533959046.html">Graph Neural Networks</a></li>
+          
+            <li><a title="graph representation learning" href="16077533959085.html">graph representation learning</a></li>
+          
+            <li><a title="Spectral Clustering" href="16029890553575.html">Spectral Clustering</a></li>
+          
+            <li><a title="Community structure in networks" href="16019601035128.html">Community structure in networks</a></li>
+          
+            <li><a title="Motifs and structural roles in networks" href="16017096445579.html">Motifs and structural roles in networks</a></li>
+          
+            <li><a title="Properties of Networks and Random Graph Model" href="16016274752497.html">Properties of Networks and Random Graph Model</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>pytorch</label></li>
+
+          
+            <li><a title="pytorch 环境安装及配置" href="15808187045354.html">pytorch 环境安装及配置</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>分布式系统</label></li>
+
+          
+            <li><a title="分布式一致性" href="15860748439491.html">分布式一致性</a></li>
+          
+            <li><a title="raft 参考文章" href="15854050053037.html">raft 参考文章</a></li>
+          
+            <li><a title="分布式系统书籍" href="15853877486542.html">分布式系统书籍</a></li>
+          
+            <li><a title="容灾【备份】" href="15848127872361.html">容灾【备份】</a></li>
+          
+            <li><a title="容灾【备份】" href="15848127093419.html">容灾【备份】</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>mlops</label></li>
+
+          
+            <li><a title="模型生产环境中的反馈与数据回流" href="16490569390259.html">模型生产环境中的反馈与数据回流</a></li>
+          
+            <li><a title="mlops之监控与数据回流" href="16482627913984.html">mlops之监控与数据回流</a></li>
+          
+            <li><a title="为机器学习量身定做的ops工具：cml & dvc" href="16268581441013.html">为机器学习量身定做的ops工具：cml & dvc</a></li>
+          
+            <li><a title="[toc]" href="16003962131575.html">[toc]</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>paddle</label></li>
+
+          
+            <li><a title="直播场景PGL落地" href="16078655202819.html">直播场景PGL落地</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>参数服务器</label></li>
+
+          
+            <li><a title="ps-lite" href="15836784836219.html">ps-lite</a></li>
+          
+            <li><a title="ps-lite再一次研读源码" href="15536014868367.html">ps-lite再一次研读源码</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>GAN</label></li>
+
+          
+            <li><a title="深度解析为什么GAN能是Structured Learning的一种解决方案" href="Introduction%20to%20GAN.html">深度解析为什么GAN能是Structured Learning的一种解决方案</a></li>
+          
+
+      
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+        <section id="main-content" role="main" class="scroll-container">
+
+          <div class="row">
+            <div class="large-3 medium-3 columns">
+              <div class="hide-for-small">
+                <div class="sidebar">
+                <nav>
+                  <ul id="side-nav" class="side-nav">
+
+                    
+                      <li class="side-title"><span>推荐系统</span></li>
+                        
+                          <li><a title="推荐系统的禅与道" href="15951226773958.html">推荐系统的禅与道</a></li>
+                        
+                          <li><a title="推荐系统灌水文之如何理解Item" href="15763400595374.html">推荐系统灌水文之如何理解Item</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>TensorFlow</span></li>
+                        
+                          <li><a title="TensorFlow Sparse的一个优化" href="15768353446694.html">TensorFlow Sparse的一个优化</a></li>
+                        
+                          <li><a title="基础知识背景" href="15768070172080.html">基础知识背景</a></li>
+                        
+                          <li><a title="TensorFlow优化" href="15744799610685.html">TensorFlow优化</a></li>
+                        
+                          <li><a title="GDG上海 2019.10.13分享内容准备" href="15673444950441.html">GDG上海 2019.10.13分享内容准备</a></li>
+                        
+                          <li><a title="Dive Into TensorFlow" href="15659603996762.html">Dive Into TensorFlow</a></li>
+                        
+                          <li><a title="Maybe Best Practice With Sparse Machine Learning In TensorFlow" href="15430699092916.html">Maybe Best Practice With Sparse Machine Learning In TensorFlow</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>机器学习平台</span></li>
+                        
+                          <li><a title="---" href="16533711069508.html">---</a></li>
+                        
+                          <li><a title="机器学习平台在云音乐的持续实践" href="16371350579612.html">机器学习平台在云音乐的持续实践</a></li>
+                        
+                          <li><a title="泛模型管理与分发" href="16076083666793.html">泛模型管理与分发</a></li>
+                        
+                          <li><a title="机器学习与容器化平台" href="15861773530303.html">机器学习与容器化平台</a></li>
+                        
+                          <li><a title="机器学习工程实践" href="15648106167930.html">机器学习工程实践</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>图计算</span></li>
+                        
+                          <li><a title="直播场景PGL落地" href="16078481811620.html">直播场景PGL落地</a></li>
+                        
+                          <li><a title="Graph Neural Networks" href="16077533959046.html">Graph Neural Networks</a></li>
+                        
+                          <li><a title="graph representation learning" href="16077533959085.html">graph representation learning</a></li>
+                        
+                          <li><a title="Spectral Clustering" href="16029890553575.html">Spectral Clustering</a></li>
+                        
+                          <li><a title="Community structure in networks" href="16019601035128.html">Community structure in networks</a></li>
+                        
+                          <li><a title="Motifs and structural roles in networks" href="16017096445579.html">Motifs and structural roles in networks</a></li>
+                        
+                          <li><a title="Properties of Networks and Random Graph Model" href="16016274752497.html">Properties of Networks and Random Graph Model</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>pytorch</span></li>
+                        
+                          <li><a title="pytorch 环境安装及配置" href="15808187045354.html">pytorch 环境安装及配置</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>分布式系统</span></li>
+                        
+                          <li><a title="分布式一致性" href="15860748439491.html">分布式一致性</a></li>
+                        
+                          <li><a title="raft 参考文章" href="15854050053037.html">raft 参考文章</a></li>
+                        
+                          <li><a title="分布式系统书籍" href="15853877486542.html">分布式系统书籍</a></li>
+                        
+                          <li><a title="容灾【备份】" href="15848127872361.html">容灾【备份】</a></li>
+                        
+                          <li><a title="容灾【备份】" href="15848127093419.html">容灾【备份】</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>mlops</span></li>
+                        
+                          <li><a title="模型生产环境中的反馈与数据回流" href="16490569390259.html">模型生产环境中的反馈与数据回流</a></li>
+                        
+                          <li><a title="mlops之监控与数据回流" href="16482627913984.html">mlops之监控与数据回流</a></li>
+                        
+                          <li><a title="为机器学习量身定做的ops工具：cml & dvc" href="16268581441013.html">为机器学习量身定做的ops工具：cml & dvc</a></li>
+                        
+                          <li><a title="[toc]" href="16003962131575.html">[toc]</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>paddle</span></li>
+                        
+                          <li><a title="直播场景PGL落地" href="16078655202819.html">直播场景PGL落地</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>参数服务器</span></li>
+                        
+                          <li><a title="ps-lite" href="15836784836219.html">ps-lite</a></li>
+                        
+                          <li><a title="ps-lite再一次研读源码" href="15536014868367.html">ps-lite再一次研读源码</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>GAN</span></li>
+                        
+                          <li><a title="深度解析为什么GAN能是Structured Learning的一种解决方案" href="Introduction%20to%20GAN.html">深度解析为什么GAN能是Structured Learning的一种解决方案</a></li>
+                        
+
+                    
+                  </ul>
+                </nav>
+                </div>
+              </div>
+            </div>
+            <div class="large-9 medium-9 columns">
+
+ <div class="markdown-body">
+<h1>为机器学习量身定做的ops工具：cml & dvc</h1>
+
+<h2><a id="%E5%8A%A8%E6%9C%BA" class="anchor" aria-hidden="true" href="#%E5%8A%A8%E6%9C%BA"><span class="octicon octicon-link"></span></a>动机</h2>
+<p>写这篇文章初衷是最近工作在做一些关于机器学习流程化的工作。现阶段，算法上的创新一天一个样，很多时候，算法同学会去试， 如何能搞提升较高的效率， 每个算法同学的手段都不同，回想计算机科学发展至今天，从野蛮生长到模块化、流程化、标准化。机器学习无外如是。而最近工作涉及到关于mlops相关的事情，其难度很大，不在乎技术本身，当中涉及到太多的以往的技术债。很难去设计本来mlops应该做的东西，另外在某个微信群里讨论，算法同学应该怎样增加工程能力<br />
+<img src="media/16268581441013/IMG_1454.png" alt="IMG_1454" /><br />
+其实个人认为算法相关的工程能力也不是去一定专注model service，写部署服务这些，个人认为凡是提升算法工程当中的效率，皆可以算作工程能力。基于这两个原因以及自己的职业规划，细了解了开源相关的工作，窃以为开源虽然有时候很难落地企业实际场景，但是其思想很纯粹， 值得我们去学习，这一系列的文章应该会比较多，今天先介绍cml 和dvc。</p>
+<h2><a id="cml%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%B0%9D%E8%AF%95" class="anchor" aria-hidden="true" href="#cml%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%B0%9D%E8%AF%95"><span class="octicon octicon-link"></span></a>cml 第一次尝试</h2>
+<p>git clone <a href="https://github.com/burness/example_cml">https://github.com/burness/example_cml</a></p>
+<p>定义一个train-my-model的workflow：</p>
+<pre><code>name: train-my-model
+on: [push]
+jobs:
+  run:
+    runs-on: [ubuntu-latest]
+    container: docker://dvcorg/cml-py3:latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: cml_run
+      env:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        pip install -r requirements.txt
+        python train.py
+
+        cat metrics.txt &gt;&gt; report.md
+        cml-publish confusion_matrix.png --md &gt;&gt; report.md
+        cml-send-comment report.md
+</code></pre>
+<p>几个关键点：</p>
+<ol>
+<li>定义一个train-my-model的工作流，该工作流在代码被push到仓库当中任一分支时触发；</li>
+<li>启动dvcorg/cml-py3:latest 容器，使用action/checkout@v2，拉取项目源码（这个是在github专门提供的机器上完成的，github hosted runner和self hosted runner的差异）；</li>
+<li>从requirements.txt安装项目所需python包，运行train.py， 并将结果(metrics.txt, cufusion_matrix.png)重定向到report.md,然后将report转换为下图的评论；<br />
+<img src="media/16268581441013/16270486430209.jpg" alt="" style="width:1762px;" /></li>
+</ol>
+<p>修改代码当中模型某一参数后， 提交后，触发该工作流：</p>
+<p><img src="media/16268581441013/16270973871838.jpg" alt="" style="width:1751px;" /></p>
+<p>查看任意工作流的日志记录：<br />
+<img src="media/16268581441013/16270974101092.jpg" alt="" style="width:1761px;" /></p>
+<p><img src="media/16268581441013/16270974586431.jpg" alt="" style="width:1478px;" /><br />
+<code>pip install -r requirements.txt</code><br />
+<img src="media/16268581441013/16270974890487.jpg" alt="" style="width:1401px;" /><br />
+<code>python train.py</code><br />
+<img src="media/16268581441013/16270975334302.jpg" alt="" style="width:1339px;" /></p>
+<h2><a id="dvc" class="anchor" aria-hidden="true" href="#dvc"><span class="octicon octicon-link"></span></a>dvc</h2>
+<h3><a id="dvc-demo%E6%BC%94%E7%A4%BA" class="anchor" aria-hidden="true" href="#dvc-demo%E6%BC%94%E7%A4%BA"><span class="octicon octicon-link"></span></a>dvc demo演示</h3>
+<p>第一节介绍了基于github actions，如何去做持续机器学习的工作流，算是一个简单的demo，接下来演示，当训练数据过大时，github无法使用时，应该如何处理，这里我们先做个演示，后续再来讲解。</p>
+<p>先安装个dvc</p>
+<p><code>pip install dvc</code></p>
+<p>dvc init 有个报错<br />
+ERROR: unexpected error - 'PosixPath' object has no attribute 'read_text', 这里后面遇到experiments，又跳转会pip安装，并且卸载 pathlib即可: <code>pip uninstall pathlib</code>.<br />
+改用安装包<br />
+<img src="media/16268581441013/16270985964480.jpg" alt="" style="width:1036px;" /></p>
+<p><code>git clone https://github.com/burness/mlops_tutorial2</code></p>
+<p>在google 云硬盘上创建一个目录， 复制folders之后的字段<br />
+<img src="media/16268581441013/16270989107864.jpg" alt="" style="width:1516px;" /></p>
+<p>dvc remote add -d mlops_toturial2 gdrive://1ybWU9o_A38z0VIzXpBzRMsoTdcrjKqC7</p>
+<p>commit and push</p>
+<p>运行代码get_data.py， 下载需要使用的数据文件<br />
+<img src="media/16268581441013/16270990077637.jpg" alt="" style="width:857px;" /></p>
+<p>运行dvc add data.csv<br />
+<img src="media/16268581441013/16270991088207.jpg" alt="" style="width:890px;" /></p>
+<p>commit and push：</p>
+<p><img src="media/16268581441013/16270992221955.jpg" alt="" style="width:916px;" /><br />
+dvc 推送数据到google drive：</p>
+<p><img src="media/16268581441013/16270992804420.jpg" alt="" style="width:927px;" /><br />
+由于是第一次登陆， dvc需要你将图上链接粘贴到浏览器，然后得到一个验证码，复制进来，然后就开始数据push：<br />
+<img src="media/16268581441013/16270993336607.jpg" alt="" style="width:914px;" /><br />
+名字有一个变化：<br />
+<img src="media/16268581441013/16270993990518.jpg" alt="" style="width:922px;" /></p>
+<p>因为我在公司，可以看外网资料， 这边没有两台电脑，为了方便演示， 我从github上clone项目代码到另一个目录:<br />
+<img src="media/16268581441013/16270995204998.jpg" alt="" style="width:892px;" /><br />
+dvc pull:<br />
+<img src="media/16268581441013/16270996760369.jpg" alt="" style="width:898px;" /></p>
+<h3><a id="dvc%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3" class="anchor" aria-hidden="true" href="#dvc%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3"><span class="octicon octicon-link"></span></a>dvc 功能详解</h3>
+<h4><a id="%E6%95%B0%E6%8D%AE%E4%B8%8E%E6%A8%A1%E5%9E%8B%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%EF%BC%9A" class="anchor" aria-hidden="true" href="#%E6%95%B0%E6%8D%AE%E4%B8%8E%E6%A8%A1%E5%9E%8B%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%EF%BC%9A"><span class="octicon octicon-link"></span></a>数据与模型版本管理：</h4>
+<p>如前面一小节里， 我们dvc add data.csv， 生成data.csv.dvc， 那么我们看下对应dvc里面的内容：<br />
+<img src="media/16268581441013/16271082433408.jpg" alt="" style="width:894px;" /><br />
+那么，我们现在对数据 做一些更改，删除两行数据后，重新dvc add:<br />
+<img src="media/16268581441013/16271084664240.jpg" alt="" style="width:897px;" /></p>
+<p><img src="media/16268581441013/16271085059004.jpg" alt="" style="width:397px;" /><br />
+git 提交， dvc push:<br />
+<img src="media/16268581441013/16271085825450.jpg" alt="" style="width:898px;" /><br />
+我们到google drive上看， 又多了一个版本：<br />
+<img src="media/16268581441013/16271086268772.jpg" alt="" style="width:653px;" /><br />
+到现在为止， 我们有那个dataset， 怎么转回到之前的那个数据集呢？先git checkout 某个版本，然后dvc checkout即可<br />
+<img src="media/16268581441013/16271089856258.jpg" alt="" style="width:893px;" /><br />
+我们的数据就回来了，更好地一种是通过branch 来管理，这里就不尝试了，大家可以试试。</p>
+<h4><a id="%E6%95%B0%E6%8D%AE%E3%80%81%E6%A8%A1%E5%9E%8B%E8%AE%BF%E9%97%AE" class="anchor" aria-hidden="true" href="#%E6%95%B0%E6%8D%AE%E3%80%81%E6%A8%A1%E5%9E%8B%E8%AE%BF%E9%97%AE"><span class="octicon octicon-link"></span></a>数据、模型访问</h4>
+<p><code>dvc list https://github.com/burness/mlops_tutorial2</code>可以直接列出，项目当中使用dvc保存的数据文件，而注意这些文件并没有保存在github上。<br />
+<img src="media/16268581441013/16271094209508.jpg" alt="" style="width:893px;" /></p>
+<p><code>dvc get https://github.com/burness/mlops_tutorial2 data.csv</code>，可以在任意路径来download数据：<br />
+<img src="media/16268581441013/16271098334220.jpg" alt="" style="width:898px;" /></p>
+<p>其他命令，如<code>dvc import</code>可以具体去看相关帮助信息了解；</p>
+<h4><a id="%E6%95%B0%E6%8D%AE%E7%BB%93%E5%90%88pipeline" class="anchor" aria-hidden="true" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E5%90%88pipeline"><span class="octicon octicon-link"></span></a>数据结合pipeline</h4>
+<p>前面演示了如何使用dvc管理你的dataset文件，当然model文件也可以同样管理，但是这还不够，接下来会演示dvc如何保存数据的pipelines，在演示之前，我们拿到演示需要的代码:</p>
+<pre><code> wget https://code.dvc.org/get-started/code.zip
+ unzip code.zip
+ rm -f code.zip
+</code></pre>
+<p>安装数据处理所需的依赖：</p>
+<pre><code>pip install -r src/requirements.txt
+</code></pre>
+<p>运行命令：</p>
+<pre><code>dvc run -n prepare \
+          -p prepare.seed,prepare.split \
+          -d src/prepare.py -d data/data.xml \
+          -o data/prepared \
+          python src/prepare.py data/data.xml
+</code></pre>
+<p>将数据文件按对应参数，切分成train.tsv与test.tsv：<br />
+<img src="media/16268581441013/16271123801824.jpg" alt="" style="width:1056px;" /></p>
+<p><img src="media/16268581441013/16271121967787.jpg" alt="" style="width:1064px;" /><br />
+对应dvc.yaml里内容记录：<br />
+<img src="media/16268581441013/16271122594458.jpg" alt="" style="width:442px;" /></p>
+<p>下一步，将prepare的数据进行特征处理：</p>
+<pre><code>dvc run -n featurize \
+          -p featurize.max_features,featurize.ngrams \
+          -d src/featurization.py -d data/prepared \
+          -o data/features \
+          python src/featurization.py data/prepared data/features
+</code></pre>
+<p>yaml文件如下：</p>
+<p><img src="media/16268581441013/16271124863840.jpg" alt="" style="width:1052px;" /></p>
+<p>继续增加训练过程:</p>
+<pre><code>dvc run -n train \
+      -p train.seed,train.n_est,train.min_split \
+      -d src/train.py -d data/features \
+      -o model.pkl \
+      python src/train.py data/features model.pkl
+</code></pre>
+<p>相关产出：<br />
+<img src="media/16268581441013/16271126922287.jpg" alt="" style="width:1095px;" /><br />
+dvc.yaml文件如下：<br />
+<img src="media/16268581441013/16271125583416.jpg" alt="" style="width:1013px;" /><br />
+接下来只需要执行<code>dvc repro</code>，即可重现dvc pipeline：<br />
+<img src="media/16268581441013/16271127557484.jpg" alt="" style="width:1014px;" /></p>
+<p>我们修改下params里面的参数split:0.20-&gt;0.15, n_est:50-&gt;100:<br />
+<img src="media/16268581441013/16271128799979.jpg" alt="" style="width:1018px;" /><br />
+最后<code>dvc dag</code>:<br />
+<img src="media/16268581441013/16271129692570.jpg" alt="" style="width:654px;" /></p>
+<h4><a id="pipeline%E4%B8%8Emetric%E3%80%81parameter%E3%80%81plots%E7%BB%93%E5%90%88" class="anchor" aria-hidden="true" href="#pipeline%E4%B8%8Emetric%E3%80%81parameter%E3%80%81plots%E7%BB%93%E5%90%88"><span class="octicon octicon-link"></span></a>pipeline与metric、parameter、plots结合</h4>
+<p>继续上面的演示来， 我们构建如上图的一个pipeline之后，接下来做模型的评估， 其中-M指定该文件为metric文件, --plots-no-cache 表明dvc不cache该文件：</p>
+<pre><code>dvc run -n evaluate \
+      -d src/evaluate.py -d model.pkl -d data/features \
+      -M scores.json \
+      --plots-no-cache prc.json \
+      --plots-no-cache roc.json \
+      python src/evaluate.py model.pkl \
+             data/features scores.json prc.json roc.json
+</code></pre>
+<p>dvc.yaml又增加evaluate过程, 其中evaluate生成对应的score.json, prc.json, roc.json：<br />
+<img src="media/16268581441013/16271135137990.jpg" alt="" style="width:1031px;" /><br />
+查看score.json：<br />
+<img src="media/16268581441013/16271138921999.jpg" alt="" style="width:1028px;" /></p>
+<pre><code>dvc plots modify prc.json -x recall -y precision
+dvc plots modify roc.json -x fpr -y tpr
+</code></pre>
+<p><img src="media/16268581441013/16271140133980.jpg" alt="" style="width:1096px;" /></p>
+<p>运行<code>dvc plots show</code>:</p>
+<p><img src="media/16268581441013/16271140813274.jpg" alt="" style="width:911px;" /></p>
+<p>修改params.yaml中的max_features=1500, ngrams=2。<br />
+重新运行整个pipeline：</p>
+<pre><code>dvc repro
+</code></pre>
+<p><img src="media/16268581441013/16271144086624.jpg" alt="" style="width:989px;" /></p>
+<p>git保存&amp;提交：</p>
+<pre><code>git add .
+git commit -a -m &quot;Create evaluation stage&quot;
+</code></pre>
+<p>再次修改params.yaml中的max_features=200, ngrams=1， 运行整个pipeline：<br />
+<img src="media/16268581441013/16271147070148.jpg" alt="" style="width:1024px;" /></p>
+<p><img src="media/16268581441013/16271147804134.jpg" alt="" style="width:1058px;" /></p>
+<p><code>dvc plots diff</code>画出不同参数版本的效果差异：</p>
+<p><img src="media/16268581441013/16271148680735.jpg" alt="" style="width:784px;" /></p>
+<h4><a id="dvc%E4%B8%8Eexperiments" class="anchor" aria-hidden="true" href="#dvc%E4%B8%8Eexperiments"><span class="octicon octicon-link"></span></a>dvc与experiments</h4>
+<p>在dvc中，使用experiments来构建不同实验组，来进行超参的调试：</p>
+<p><code>dvc exp run --set-param featurize.max_features=3000 --set-param featurize.ngrams=2</code>将max_features配置为3000， 并且运行整个pipeline：<br />
+<img src="media/16268581441013/16271152592767.jpg" alt="" style="width:1092px;" /><br />
+对比实验：<br />
+<img src="media/16268581441013/16271154431356.jpg" alt="" style="width:1015px;" /></p>
+<p>缓存实验队列：</p>
+<pre><code>dvc exp run --queue -S train.min_split=8
+dvc exp run --queue -S train.min_split=64
+dvc exp run --queue -S train.min_split=2 -S train.n_est=100
+dvc exp run --queue -S train.min_split=8 -S train.n_est=100
+dvc exp run --queue -S train.min_split=64 -S train.n_est=100
+</code></pre>
+<p>开始运行， 其中并行任务为2， 这里遇到个小插曲，改用pip安装即可，写在pathlib即可：</p>
+<pre><code>dvc exp run --run-all --jobs 2
+</code></pre>
+<p><img src="media/16268581441013/16271172641007.jpg" alt="" style="width:571px;" /></p>
+<p>我们看到最好的auc 效果为79d541b， 实验id为exp-f6079， 我们将这个持久化，并且查看现在score.json：</p>
+<p><img src="media/16268581441013/16271173934077.jpg" alt="" style="width:1078px;" /></p>
+<p>dvc push 保存至远端<br />
+<img src="media/16268581441013/16271176696608.jpg" alt="" style="width:1101px;" /></p>
+<p>这里我push失败<code>dvc exp push gitremote xx</code>， 应该是和我项目git remote前后不一致相关，，<code>dvc exp pull gitremote xxx </code>，小问题， 这里不影响 不做过多计较；</p>
+<p>##总结<br />
+不知道大家有没有把文章看完，很长（后续应该还有cml和dvc其他方面的实践，比如self-hosted runner， 太长了就拆开）。不过归根到底，无非就是那么几块东西：</p>
+<ol>
+<li>如何将你的算法代码、数据、配置、模型、实验管理起来；</li>
+<li>将你所管理的信息，能够分享、复制、快速复现；</li>
+<li>所有的流程都可以记录，可以版本管理；</li>
+</ol>
+<p>文章上面相关的技术工作是<a href="https://iterative.ai/">iterative.ai/</a>这家公司的成果。虽然无法直接拿到企业中使用，但是其中的思想以及设计理念值得学习。接下来的文章，我将参考他们的设计思想，试着去设计符合企业界的mlops。 有兴趣，欢迎讨论。</p>
+
+
+</div>
+
+<br /><br />
+<hr />
+
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	        <a href="16371350579612.html"  title="Previous Post: 机器学习平台在云音乐的持续实践">&laquo; 机器学习平台在云音乐的持续实践</a>
+	    
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="16105364013893.html" 
+	        title="Next Post: "> &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
+
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
+
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '16268581441013.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
+</div></div>
+
+
+<div class="page-bottom">
+  <div class="row">
+  <hr />
+  <div class="small-9 columns">
+  <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+  <div class="small-3 columns">
+  <p class="copyright text-right"><a href="#header">TOP</a></p>
+  </div>
+   
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+    
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+
+<style type="text/css">
+figure{margin: 0.4em 0;padding: 0;}
+  figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: black;
+    background: none;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background:#b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+    text-shadow: none;
+    background: #b3d4fc;
+}
+
+@media print {
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+    }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #F7F7F7;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #999;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #9a6e3a;
+    background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #07a;
+}
+
+.token.function,
+.token.class-name {
+    color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #e90;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+
+</style>
+    
+    <script src="asset/js/foundation.min.js"></script>
+    <script src="asset/js/foundation/foundation.offcanvas.js"></script>
+    <script>
+      $(document).foundation();
+
+     
+    </script>
+
+
+  </body>
+</html>
